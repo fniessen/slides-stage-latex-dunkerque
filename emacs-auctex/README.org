@@ -1,0 +1,1302 @@
+#+TITLE:     Emacs + AUCTeX
+#+AUTHOR:    \href{mailto:fniessen@pirilampo.org}{Fabrice Niessen}
+#+DATE:      28 juin 2017
+#+LANGUAGE:  fr
+#+OPTIONS:   H:2 toc:t
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+
+# Go and read https://elzevir.fr/imj/latex/tips.html !!!
+
+#+latex_class_options: [anonym,final]
+
+* Settings                                                    :noexport:ARCHIVE:
+
+#+LaTeX_CLASS_OPTIONS: [t]
+#+BEAMER_HEADER: \subtitle{Le meilleur éditeur pour \LaTeX}
+#+BEAMER_HEADER: \institute[Pirilampo]{}
+#+BEAMER_HEADER: \titlegraphic{\includegraphics[height=1.5cm]{images/Pirilampo}}
+
+#+BIND: org-latex-title-command "\\title{Emacs + AUC\\TeX{}}\n\\date[juin 2017]{28 juin 2017}\n\\begin{frame}[plain]\n\\maketitle\n\\end{frame}"
+
+#+BIND: org-beamer-outline-frame-title "Plan"
+#+BEAMER_HEADER: \AtBeginSection{%
+#+BEAMER_HEADER:   \begin{frame}
+#+BEAMER_HEADER:     \frametitle{Plan}
+#+BEAMER_HEADER:     \tableofcontents[currentsection]
+#+BEAMER_HEADER:   \end{frame}
+#+BEAMER_HEADER: }
+#+BEAMER_HEADER: \AtBeginSubsection{%
+#+BEAMER_HEADER:   \begin{frame}
+#+BEAMER_HEADER:     \frametitle{Plan}
+#+BEAMER_HEADER:     \tableofcontents[currentsection,currentsubsection]
+#+BEAMER_HEADER:   \end{frame}
+#+BEAMER_HEADER: }
+
+# #+BEAMER_HEADER: \usepackage{lxfonts}
+# #+BEAMER_HEADER: \usefonttheme{professionalfonts}
+#+BEAMER_HEADER: \usepackage{lmodern}
+
+#+BEAMER_HEADER: \usetheme{AnnArbor}
+#+BEAMER_HEADER: \usecolortheme{crane}
+
+# #+BEAMER_HEADER: \setbeamercovered{highly dynamic}
+#+BEAMER_HEADER: \beamertemplatenavigationsymbolsempty
+
+#+INCLUDE: "listings.org"
+
+#+LATEX_HEADER: \definecolor{mylinkcolor}{HTML}{006DAF}
+#+LATEX_HEADER: \hypersetup{colorlinks=true, linkcolor=mylinkcolor, urlcolor=mylinkcolor}
+
+#+PROPERTY:  header-args :eval no
+
+#+LATEX_HEADER: \usepackage{nccparskip}
+#+LATEX_HEADER: \SetParskip{6pt plus 1pt minus .4pt}
+
+#+LATEX_HEADER: \usepackage{menukeys}
+#+LATEX_HEADER: \let\ORIkeys\keys
+#+LATEX_HEADER: \renewcommand{\keys}[1]{\ORIkeys{\texttt{#1}}}
+#+LATEX_HEADER: \newcommand{\repeatedkeys}[1]{\keys{\textcolor{gray}{#1}}}
+
+* Tasks                                                               :noexport:
+
+** TODO Ajouter code pour mapper ² sur backslash
+
+** TODO Parler des multi-fichiers (maître - esclave)
+
+** TODO Avoir le titre AUC \TeX
+
+* Aperçu
+
+** Description
+
+Bienvenue dans le cours Emacs + AUC\TeX{}. Il contient la documentation de
+référence qui décrit comment écrire du code LaTeX avec :
+
+- l'éditeur GNU Emacs et
+- la librairie AUC\TeX{}.
+
+Ces outils *libres* et *gratuits* vous permettent de produire facilement des
+documents *PDF de haute qualité* qui vont être affichés sur tous les ordinateurs
+exactement comme ils l'étaient sur le vôtre.
+
+** Caractéristiques et objectifs
+
+Les avantages évidents d'utiliser Emacs + AUC\TeX{} sont d'être *plus productif*
+pour éditer du LaTeX.
+
+À côté de fonctions standards comme la navigation aisée dans le document ou la
+vérification orthographique et syntaxique à la volée, Emacs offre des
+*fonctionnalités avancées* (et homogènes) pour tout *type de fichiers*. Par
+exemple :
+
+- recherche incrémentale,
+- édition de rectangles,
+- macros,
+- Helm.
+
+** Exigences
+
+- Une version d'Emacs 25 (si possible).
+
+- Une installation fonctionnelle de LaTeX est requise pour exporter vers du
+  PDF. Si elle n'est pas encore installée sur votre système, installer [[http://www.tug.org/texlive/][TeX Live]]
+  (par exemple).
+
+** Besoin de plusieurs outils dans votre boîte
+
+# (http://www.slideshare.net/dmgerman/on-editing-text-and-emacs, page 10)
+
+#+ATTR_LaTeX: :float t
+[[file:images/toolbox-messy.png]]
+
+** Emacs intègre tous ces outils
+
+*** Left                                                                 :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.57
+:END:
+
+- Très puissant
+- Générique et spécialisé (environnement de développement pour beaucoup de
+  langages, gestionnaire de fichiers, terminal /shell/, client mail, navigateur
+  Web, client IRC, Tetris, etc.)
+- Complètement extensible et personnalisable (en Lisp)
+
+*** Right                                                                :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.4
+:END:
+
+# (http://www.slideshare.net/dmgerman/on-editing-text-and-emacs, page 11)
+
+#+attr_latex: :width \linewidth
+[[file:images/toolbox-tidy.png]]
+
+*** End of columns                                             :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+
+- Libre et gratuit
+- Multi-plate-forme (Linux, MacOS, Windows)
+
+** Productivité = capacité à ÉDITER DU TEXTE
+
+Emacs ne devrait pas être vu comme un éditeur : c'est un environnement de
+développement logiciel avec de *puissantes capacités d'édition de texte*. Et
+c'est même encore beaucoup plus que cela !
+
+#+begin_quote
+« Emacs outshines all other editing software in approximately the same way that
+the noonday sun does the stars. It is not just bigger and brighter; it simply
+makes everything else vanish. » \\
+--- Neal Stephenson, \\
+/In the Beginning was the Command Line/ (1998)
+#+end_quote
+
+Emacs est mon outil *le plus important* !
+
+* Bases pour utiliser Emacs
+
+** Terminologie Emacs
+
+#+attr_latex: :float t :width .65\linewidth
+[[file:images/emacs-labeled.png]]
+
+** Ne pas utiliser la souris
+
+# (http://www.slideshare.net/dmgerman/on-editing-text-and-emacs, page 18)
+
+#+ATTR_LaTeX: :float t :width .9\linewidth
+[[file:images/elephants.png]]
+
+** Exemple de fichier LaTeX sous Emacs
+
+#+attr_latex: :float t :width .65\linewidth
+[[file:images/toolbar.png]]
+
+** Notation des raccourcis clavier
+
+# #+CAPTION: http://www.pcastuces.com/pratique/materiel/clavier_qwerty_azerty/page1.htm
+#+ATTR_LaTeX: :float t :width .5\linewidth
+[[file:images/clavier_azerty.png]]
+
+- Touches spéciales (modificateurs) :
+  + \keys{S} ::
+       /Shift/
+  + \keys{C} ::
+       /Control/
+  + \keys{M} ::
+       /Meta/ (« /Alt/ »)
+- \keys{C-h} \keys{t} signifie \\
+  « maintenir \keys{\ctrl} en tapant \keys{h}, puis lâcher et taper \keys{t} »
+- \keys{M-x} pour *exécuter une commande* nommée (qui n'a pas de raccourci)
+
+** Manipuler un fichier
+
+- \keys{C-x} \keys{C-f} ::
+     Ouvrir un fichier (compléter le nom avec \keys{TAB})
+- \repeatedkeys{C-x} \keys{C-s} ::
+     Sauvegarder le fichier
+- \repeatedkeys{C-x} \keys{C-w} ::
+     Sauvegarder le fichier sous un autre nom
+- \repeatedkeys{C-x} \keys{C-c} ::
+     Quitter Emacs
+
+** Manipuler un écran
+
+Les commandes suivantes servent à manipuler des écrans :
+
+- \keys{C-v} ::
+     Avancer d'un écran
+- \keys{M-v} ::
+     Reculer d'un écran
+- \keys{C-l} ::
+     Effacer l'écran et réafficher tout le texte autour du curseur, qui est
+     placé au milieu de l'écran ...
+- \keys{C-l C-l} ::
+     ... texte autour du curseur placé au-dessus de l'écran
+- \keys{C-l C-l C-l} ::
+     ... texte autour du curseur placé au-dessous de l'écran
+
+** Annuler
+
+- \keys{C-g} ::
+     Stopper une commande (ou débloquer Emacs quand il ne répond plus)
+- \keys{C-x} \keys{u} ::
+     Annuler la dernière modification[fn::Synonyme de \keys{C-\_}]
+
+** Couper / Copier / Coller
+
+- \keys{C-SPC} ::
+     Marquer le début d'une région
+- \keys{C-w} ::
+     Couper
+- \keys{M-w} ::
+     Copier
+- \keys{C-y} ::
+     Coller
+- \keys{M-y} ::
+     Remplacer la région qui vient d'être collée par une région précédemment
+     coupée ou copiée
+
+Il existe un mode (CUA) qui permet d'émuler le \keys{C-x} / \keys{C-c}
+/ \keys{C-v} mais il est perturbant.
+
+** Chercher
+
+- \keys{C-s} (ou \keys{C-r}) ::
+     Chercher en avant (ou en arrière)
+
+     \pause
+
+     Recherche *incrémentale* : Emacs recherche la première occurrence
+     correspondant à chaque caractère entré.
+
+     \pause
+
+     Refaire \keys{C-s} ou \keys{C-r} pour aller sur l'occurrence suivante.
+
+     \pause
+
+- \keys{M-s} \keys{o} ::
+     Montrer toutes les lignes contenant une correspondance pour une /expression
+     régulière/
+     #+beamer: \footnote<4->{Motif décrivant un ensemble de chaînes de caractères possibles selon une syntaxe précise.}
+
+     Pour atteindre une ligne donnée, cliquer dessus dans la fenêtre ~*Occur*~.
+     #+beamer: \footnote<4->{On peut fermer cette fenêtre \alert{spéciale} (car présence des étoiles dans le nom) avec \keys{C-x 1} à partir de la fenêtre principale.}
+
+** Rechercher / remplacer
+
+- \keys{M-\%} ::
+     Remplacer une chaîne de caractères par une autre
+
+     \pause
+
+     Demande de confirmation :
+
+     + \keys{y} ::
+          Remplacer cette occurrence, puis continuer la recherche d'autres
+          occurrences.
+
+     \pause
+
+     + \keys{n} ::
+          Sauter cette occurrence, mais continuer la recherche d'autres
+          occurrences.
+
+     \pause
+
+     + \keys{.} ::
+          Remplacer cette occurrence, puis quitter.
+
+     \pause
+
+     + \keys{!} ::
+          Remplacer toutes les occurrences restantes sans plus demander de
+          confirmation.
+
+** Manipuler des lignes
+
+- \keys{M-g g} ::
+     Déplacer le point vers un numéro de ligne donné
+
+- \keys{C-k} ::
+     Supprimer tous les caractères depuis le curseur jusqu'à la fin de la ligne
+
+- \keys{M-;} ::
+     Commenter
+
+** Mettre en forme du texte
+
+- \keys{TAB} ::
+     Indenter la ligne courante (pour la plupart des types de fichiers)
+- \keys{M-q} ::
+     Convertir une ligne de texte en un paragraphe multi-lignes
+
+** Manipuler un /buffer/
+
+Emacs stocke le texte de chaque fichier dans un objet appelé « tampon »
+(/buffer/).
+
+- \keys{C-x} \keys{b} ::
+     Changer de /buffer/ (compléter le nom avec \keys{TAB})
+# - \repeatedkeys{C-x} \keys{C-b} ::
+#      Afficher la liste des /buffers/
+- \repeatedkeys{C-x} \keys{k} ::
+     Supprimer le /buffer/ courant (équivalent de « Fermer le fichier courant »
+     dans un autre éditeur)
+
+** Ligne de mode
+
+1. Codage de caractères (~1~ = Latin 1, ~U~ = UTF-8, etc.)
+
+# 2. Type de fin de ligne :
+#    - =\= (DOS) ::
+#         Caractères CRLF (~\r\n~ ou ~^M^J~)
+#    - ~Unix~ ::
+#         Caractère LF (~\n~ ou ~^J~)
+
+2. [@2] État du /buffer/, introduit par =-=, suivi de
+
+   - =--= ::
+        Non modifié
+   - =**= ::
+        Modifié (depuis la dernière sauvegarde)
+   # - =%%= ::
+   #      En lecture seule
+
+3. Nom du /buffer/
+
+4. Position relative (en pourcent, ou =Top= ou =Bottom=) et numéro de la ligne
+   courante
+
+5. Un *mode majeur* pour éditer du texte (~Text~, ~LaTeX~, etc.) ou un langage de
+   programmation (~Python~, etc.)
+
+6. Plusieurs *modes mineurs* modifiant le mode majeur (~Flyspell~, ~Auto Fill~, etc.)
+
+#+ATTR_LaTeX: :float t :width \linewidth
+[[file:images/modeline.png]]
+
+** Obtenir de l'aide
+
+- \keys{C-h} \keys{t} ::
+     Accéder au tutorial d'Emacs
+# - C-h k ::
+#      Décrire ce que fait une (combinaison de) touche(s)
+# - C-h m ::
+#      Décrire les modes courants (et combinaisons de touches)
+# - C-h i ::
+#      Afficher les pages Info pour tous les manuels installés
+# - C-h C-h ::
+#      Afficher l'aide sur l'aide
+
+** Configurer Emacs
+
+- Fichier de configuration =~/.emacs= ou =~/.emacs.d/init.el= [fn::=~= est le
+  répertoire personnel de l'utilisateur (par défaut, sous Windows :
+  =C:\Users\<utilisateur>\AppData\Roaming=)]
+
+- Ajout d'options manuellement :
+
+  #+begin_src emacs-lisp
+  ;; Show the column number in each mode line.
+  (column-number-mode 1)
+  #+end_src
+
+- Ajout d'options automatiquement via \keys{M-x} \keys{customize} (ou menu
+  \menu{Options > Customize Emacs})
+
+** COMMENT Manipuler des fenêtres
+
+- \keys{C-x} \keys{2} ::
+     Couper horizontalement la fenêtre en deux
+- \keys{C-x} \keys{3} ::
+     Couper verticalement la fenêtre en deux
+- \keys{C-x} \keys{o} ::
+     Changer de fenêtre
+- \keys{C-x} \keys{1} ::
+     Supprimer toutes les fenêtres, sauf la fenêtre active
+
+** Fonctionnalités supplémentaires
+
+Il y a encore plein d'autres choses (non traitées ici) :
+
+- fenêtres multiples affichées en même temps à l'écran
+- cadres multiples
+- etc.
+
+\label{package-manager}
+Certaines proviennent de /packages/ supplémentaires à installer en utilisant le
+/package manager/ intégré depuis Emacs 24 (ELPA) :
+
+1. Taper \keys{M-x} \keys{list-packages} \keys{RET}
+2. Marquer le(s) /package(s)/ à installer avec \keys{i}
+3. Appuyer sur \keys{x} pour lancer la procédure d'installation
+
+** Helm (levier de commande)
+
+- Rechercher un /buffer/
+
+  #+begin_src emacs-lisp
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
+  #+end_src
+
+- Rechercher un fichier ou un /buffer/
+
+  #+begin_src emacs-lisp
+  (global-set-key (kbd "<f3>") 'helm-for-files)
+  #+end_src
+
+- Afficher un menu de navigation contextuel au buffer courant (dans LaTeX,
+  affichage des sectionnements avec sélection par expression régulière)
+
+  #+begin_src emacs-lisp
+  (global-set-key (kbd "<f4>") 'helm-imenu)
+  #+end_src
+
+- Afficher des lignes contenant un certain motif (incrémental)
+
+  #+begin_src emacs-lisp
+  (global-set-key (kbd "C-o") 'helm-occur)
+  #+end_src
+
+- Exécuter une commande Emacs
+
+  #+begin_src emacs-lisp
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  #+end_src
+
+** Sauvegarde de la position du curseur
+
+#+begin_src emacs-lisp
+;; Automatically save place in each file.
+(require 'saveplace)
+(setq-default save-place t)
+#+end_src
+
+Quand vous ouvrez un fichier, le curseur va à la place où il était la dernière
+fois que vous l'avez ouvert.
+
+** Curseurs multiples                                                 :noexport:
+
+mc
+
+** Vérification orthographique à la volée
+
+#+begin_src emacs-lisp
+;; Spelling checker program.
+(setq ispell-program-name "aspell")     ; Could be ispell or hunspell.
+
+;; Default dictionary to use (if `ispell-local-dictionary' is nil, that
+;; is if there is no local dictionary to use in the buffer).
+(setq ispell-dictionary "francais")
+
+;; Enable on-the-fly spell checking.
+(add-hook 'text-mode-hook 'flyspell-mode)
+#+end_src
+
+# - =C-,= ::
+- \keys{C-,} ::
+     Aller à la prochaine erreur détectée.
+- \keys{C-.} ::
+     Corriger le mot sous le curseur.
+- \keys{M-\$} ou \keys{C-c} \keys{\$} ::
+     Ouvrir un menu avec différentes corrections possibles pour le mot sous le
+     curseur.
+
+** Vérification syntaxique à la volée
+
+# quand :
+#
+# - le /buffer/ est chargé,
+# - un caractère fin de ligne est ajouté au /buffer/,
+# - des changements ont été faits dans le /buffer/ il y a plus de 0,5 s.
+
+#+begin_src emacs-lisp
+(require 'flymake)
+
+(defun flymake-get-tex-args (file-name)
+  (list "pdflatex"
+        (list "-file-line-error" "-draftmode" "-interaction=nonstopmode"
+              file-name)))
+
+(add-to-list
+    `flymake-err-line-patterns
+    '("Runaway argument?" nil nil nil)) ; Fixes unbalanced braces in LaTeX files.
+
+(add-hook 'LaTeX-mode-hook 'flymake-mode)
+#+end_src
+
+# #+beamer: \framebreak
+#
+# États :
+#
+# - ~Flymake*~ ::
+#      Flymake est en train de tourner.
+#
+# - ~Flymake~ ::
+#      La vérification syntaxique s'est arrêtée sans erreur ni avertissement.
+#
+# - ~Flymake:E/W~ ::
+#      Nombre d'erreurs / avertissements trouvés par le processus de vérification
+#      syntaxique.
+#
+# Commandes :
+
+- \keys{M-x} \keys{flymake-popup-current-error-menu} \keys{RET} ::
+     Afficher un menu avec les erreurs/avertissements.
+
+- \keys{M-x} \keys{flymake-goto-next-error} \keys{RET} ::
+     Aller vers la prochaine erreur dans le /ring/ /err/.
+
+** Compilation LaTeX par défaut
+
+#+begin_src emacs-lisp
+(defun TeX-default ()
+  "Choose the default command from `C-c C-c'."
+  (interactive)
+  (TeX-save-document "")          ; Or just use `TeX-save-query'.
+  (execute-kbd-macro (kbd "C-c C-c RET")))
+
+;; Rebind the "compile command" to default command from `C-c C-c'
+;; (in LaTeX mode only).
+(define-key LaTeX-mode-map
+  (kbd "<f9>") 'tex-default)
+#+end_src
+
+* Modes pour éditer du LaTeX
+
+** AUC\TeX{}
+
+*** Description                                                        :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- Édition facilitée
+  + Indentation automatique
+  + Coloration syntaxique
+- Compilation d'un document LaTeX directement dans Emacs
+- Navigation d'erreur en erreur
+
+*** Appariage de certains caractères                                   :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(defun insert-parentheses ()
+  "Insert parentheses and go between them."
+  (interactive)
+  (insert "()")
+  (backward-char 1))
+
+(global-set-key "(" 'insert-parentheses)
+
+(defun insert-brackets ()
+  "Insert brackets and go between them."
+  (interactive)
+  (insert "[]")
+  (backward-char 1))
+
+(global-set-key "[" 'insert-brackets)
+
+(defun insert-braces ()
+  "Insert curly braces and go between them."
+  (interactive)
+  (insert "{}")
+  (backward-char 1))
+
+(global-set-key "{" 'insert-braces)
+#+END_SRC
+
+# #+BEGIN_SRC emacs-lisp
+# (defun insert-quotes ()
+#   "Insert quotes and go between them."
+#   (interactive)
+#   (insert "\"\"")
+#   (backward-char 1))
+#
+# (global-set-key "\"" 'insert-quotes)
+# #+END_SRC
+
+*** Mise en forme du texte                                             :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{C-f} \keys{C-b} ::
+     ~\textbf{...}~
+- \repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-i} ::
+     ~\textit{...}~
+- \repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-e} ::
+     ~\emph{...}~
+- \repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-s} ::
+     ~\textsl{...}~
+- \repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-r} ::
+     ~\textrm{...}~
+- \repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-f} ::
+     ~\textsf{...}~
+- \repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-t} ::
+     ~\texttt{...}~
+- \repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-c} ::
+     ~\textsc{...}~
+- \repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-h} ::
+     Afficher un menu avec les différentes possibilités
+
+*** Insertion de sections                                              :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{C-s} ::
+     Insérer une section :
+     + ~\part~,
+     + ~\chapter~,
+     + ~\section~,
+     + ~\subsection~,
+     + ~\subsubsection~,
+     + ~\paragraph~,
+     + ~\subparagraph~.
+
+     Compléter le nom avec \keys{TAB}.
+
+*** Insertion de commandes                                             :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{RET} ::
+     Insérer une macro TeX.
+
+     Compléter le nom avec \keys{TAB}.
+
+*** Insertion d'environnements                                         :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{C-e} ::
+     Insérer un environnement (~\begin{...}~ .. ~\end{...}~).
+
+     Compléter le nom avec \keys{TAB}.
+
+     Avec le préfixe \keys{C-u}, remplacer l'environnement dans lequel le
+     curseur est.
+
+Dans un environnement de type ~itemize~ :
+
+- \keys{M-RET} ::
+     Insérer un nouvel élément (~\item~).
+
+- \keys{C-c} \keys{]} ::
+     Insérer un ~\end{...}~ pour fermer l'environnement courant.
+
+*** COMMENT Montrer/cacher les éléments pliables                       :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+#+begin_src emacs-lisp
+;; Activate the mode (C-c C-o C-f).
+(add-hook 'LaTeX-mode-hook (lambda ()
+                             (TeX-fold-mode 1)))
+
+;; Hide all foldable items in the current buffer (C-c C-o C-b).
+(add-hook 'find-file-hook 'TeX-fold-buffer t)
+#+end_src
+
+Le raccourci \keys{C-c} \keys{C-o} \keys{C-b} doit être utilisé pour rafraîchir
+le /buffer/ une fois que des nouveaux environnements ou macros ont été insérés
+après la dernière invocation de la commande.
+
+*** COMMENT LaTeX-math-mode                                            :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{tilde} ::
+     Entrer dans un mode mineur spécial pour faciliter l'encodage de (texte
+     avec beaucoup de) symboles mathématiques.
+
+- \keys{`} ::
+     Lire un caractère du clavier et insérer le symbole spécifié dans
+     ~LaTeX-math-default~ and ~LaTeX-math-list~.
+
+Avec le préfixe \keys{C-u}, le symbole sera entouré de signes dollar.
+
+Exemples :
+- \keys{`} \keys{a} insère ~\alpha{}~
+- \keys{C-u} \keys{`} \keys{b} insère ~$\beta$~
+
+Voir menu Emacs pour liste plus exhaustive !!
+
+XXX M-; ou C-c ; pour commenter région (ou avec pourcent pour paragraph)
+
+*** Compilation                                                        :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{C-c} ::
+     Exécuter une commande sur le document.
+
+  + BibTeX ::
+       Exécuter BibTeX sur le fichier
+  + Biber ::
+       Exécuter Biber
+  + Index ::
+       Créer un fichier d'index (exécuter ~makeindex~)
+  + LaTeX ::
+       Exécuter LaTeX sur le fichier (en mode sans interruption)
+  + View ::
+       Visualiser le document DVI ou PDF (avec ré-actualisation à chaque
+       compilation)
+
+Compiler vers PDF par défaut :
+
+#+begin_src emacs-lisp
+;; Use PDF mode by default (instead of DVI).
+(setq-default TeX-PDF-mode t)
+#+end_src
+
+*** Erreurs                                                            :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{C-l} ::
+     Afficher les messages de compilation
+
+- \repeatedkeys{C-c} \keys{`} ::
+     Aller à la prochaine erreur détectée :
+
+     #+begin_src latex
+     ! Package <extension> Error : <texte d'erreur>
+     #+end_src
+
+     Le caractère \keys{`} étant pénible à taper, on peut remplacer cette
+     combinaison de touches par la touche \keys{f10} avec :
+
+     #+begin_src emacs-lisp
+     (global-set-key (kbd "<f10>") 'TeX-next-error)
+     #+end_src
+
+*** Documentation TeX                                                  :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{?} ::
+     Trouver la documentation de la chose (/package/, commande ou document) sur
+     lequel le curseur est
+
+*** Activation d'AUC\TeX{}                                             :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+Installation via le
+#+beamer: \hyperlink{package-manager}{\emph{package manager}}
+intégré à Emacs.
+
+Vous pouvez détecter l'*activation* réussie d'~AUCTeX~ après avoir chargé un
+fichier LaTeX : ajout d'un menu ~Command~.
+
+*** Quelques variables d'intérêt                                       :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+#+begin_src emacs-lisp
+;; Don't assume that the file is a master file itself.
+(setq-default TeX-master nil)
+
+;; Don't ask user for permission to save files before starting TeX.
+(setq TeX-save-query nil)
+
+;; Enable parse on load (if no style hook is found for the file).
+(setq TeX-parse-self t)
+
+;; Enable automatic save of parsed style information when saving the buffer.
+(setq TeX-auto-save t)
+#+end_src
+
+*** Formatage                                                          :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{C-q} \keys{C-e} ::
+     Formater l'environnement
+- \repeatedkeys{C-c} \repeatedkeys{C-q} \keys{C-p} ::
+     Formater le paragraphe
+- \repeatedkeys{C-c} \repeatedkeys{C-q} \keys{C-r} ::
+     Formater la région
+- \repeatedkeys{C-c} \repeatedkeys{C-q} \keys{C-s} ::
+     Formater la section
+
+** RefTeX
+
+*** Description                                                        :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+RefTeX est un mode mineur (écrit par Carsten Dominik[fn::Auteur d'Org mode])
+qui améliore AUC\TeX{}, en offrant un support pour :
+
+- ~\label~,
+- ~\ref~,
+- ~\cite~,
+- ~\index~ et
+- l'ajout de macros quelconques (\keys{C-c} \keys{RET}, avec \keys{TAB} pour
+  compléter)
+
+*** Table des matières                                                 :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{=} ::
+     Afficher une table des matières du document entier (multifichier) avec
+     possibilité de navigation.
+
+     Presser la lettre \keys{l} va afficher tous les /labels/ et toutes les
+     citations bibliographiques.
+
+*** Références                                                         :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{(} ::
+     Créer un label.
+
+- \repeatedkeys{C-c} \keys{)} ::
+     Référencer un label.
+
+     En référençant, vous avez un menu avec tous les labels d'un certain type
+     et le contexte de leur définition.
+
+     Le label sélectionné peut être inséré comme une macro ~\ref~ (via
+     \keys{C-m}), ~\pageref~, ~\autoref~ ou ~\autopageref~.
+
+*** Références croisées                                                :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{\&} ::
+     Visualiser la référence croisée de la macro courante.
+
+     + Sur une ~\ref~, montre le ~\label~ correspondant
+     + Sur un ~\label~, montre une ~\ref~ qui utilise cette clé (appels
+       supplémentaires pour montrer les autres ~\ref~)
+     # + Sur un ~\cite~, montre le ~\bibitem~ correspondant
+     # + Sur un ~\bibitem~, montre une ~\cite~ qui utilise cette clé
+     + Sur un ~\index~, montre d'autres places utilisant la même entrée d'index
+
+*** Citations bibliographiques                                         :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{[} \keys{REGEXP} ::
+     Créer une citation bibliographique (insérée comme une macro ~\cite~) en la
+     choisissant à partir d'une liste *formatée* d'articles de votre base
+     BibTeX.
+
+*** Index                                                              :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{C-c} \keys{/} ::
+     Créer une entrée d'index (avec le mot courant ou la sélection courante).
+
+# - \repeatedkeys{C-c} \keys{<} ::
+#      Créer une entrée d'index (ou de glossaire) plus générale.
+
+- \repeatedkeys{C-c} \keys{>} ::
+     Afficher l'index compilé.
+
+*** Promotion / « démotion » de niveau                                 :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- \keys{<} ::
+     Promouvoir[fn::Donner plus d'importance (par exemple, une subsection
+     devient une section)] la section courante, ou toutes les sections dans la
+     région courante.
+
+- \keys{>} ::
+     « Démouvoir » la section courante, ou toutes les sections dans la région
+     courante.
+
+*** Activation de RefTeX                                               :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+#+begin_src emacs-lisp
+(add-hook 'LaTeX-mode-hook 'reftex-mode) ; With AUCTeX LaTeX mode.
+
+;; Turn all plug-ins on.
+(setq reftex-plug-into-AUCTeX t)
+
+;; Use a separate selection buffer for each label type -- so the
+;; menu generally comes up faster.
+(setq reftex-use-multiple-selection-buffers t)
+#+end_src
+
+** COMMENT BibLaTeX (ne pas utiliser BibTeX !!)
+
+XXX Être sûr de ne pas mélanger des commandes BibTeX avec des commandes BibLaTeX...
+
+*** Description                                                        :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- Base de données bibliographiques (potentiellement une seule)
+- Typographie professionnelle
+- Inclusion automatique des seules références effectivement faites dans le
+  document
+
+Composants :
+- Fichier =.bst= ::
+     Style
+- Fichier(s) =.bib= ::
+     Base(s) de données bibliographique(s)
+
+*** Créer une référence                                                :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+Nous voulons référencer le livre « LaTeX, l'essentiel », écrit par Denis
+Bitouzé et Jean-Côme Charpentier.
+
+#+begin_src latex
+@Book{Bitouze10:LaTeX,
+  author =    {Bitouzé, Denis
+               and Charpentier, Jean-Côme},
+  title =     {\LaTeX{}, l'essentiel},
+  year =      {2010-09},
+  publisher = {Pearson Education France},
+  isbn =      {978-2-7440-7451-6}}
+#+end_src
+
+*** Faire appel au fichier =.bib=                                      :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+Le fichier =document.tex= doit contenir la séquence (en *préambule*) :
+
+#+begin_src latex
+\usepackage{csquotes}
+\usepackage[backend=biber,style=authortitle]{biblatex}
+\addbibresource{MaBiblio}               % données dans MaBiblio.bib
+#+end_src
+
+*** Citer une référence de la base bibliographique                     :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+- Ajouter une référence
+
+  #+begin_src latex
+  \cite{Bitouze10:LaTeX}
+  #+end_src
+
+  Avec RefTeX, \keys{C-c} \keys{[} \keys{REGEXP}.
+
+  ~\autocite~ pour citer comme le style le veut
+
+- Ajouter une référence non citée dans le texte
+
+  #+begin_src latex
+  \nocite{Dominik14:Org}                  % avant \printbibliography
+  #+end_src
+
+- Ajouter tout le contenu du fichier =MaBiblio.bib=
+
+  #+begin_src latex
+  \nocite{*}
+  #+end_src
+
+*** Insérer la bibliographie                                           :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+#+begin_src latex
+\printbibliography
+#+end_src
+
+là où doit apparaître la bibliographie (en *fin de document*, comme c'est
+l'usage).
+
+*** Compiler                                                           :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+#+begin_src sh
+pdflatex document.tex                   # extension `.tex' inutile
+biber document                          #! extension `.aux' inutile
+pdflatex document.tex
+pdflatex document.tex
+#+end_src
+
+** Preview-latex
+
+*** Description                                                        :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:END:
+
+Prévisualisation WYSIWYG[fn::What You See Is What You Get] de maths, figures,
+tableaux, graphiques, etc. directement dans le /buffer/ source (sous forme
+d'images PNG)
+
+Vous pouvez détecter l'*activation* réussie de ~preview-latex~ après avoir chargé
+un fichier LaTeX : ajout d'un menu ~Preview~.
+
+*** Prévisualisation dans la source                                    :B_frame:
+:PROPERTIES:
+:BEAMER_env: frame
+:BEAMER_opt: allowframebreaks,label=
+:END:
+
+#+begin_src emacs-lisp
+;; (setq preview-image-type 'png)          ; 'jpeg en cas de problème ?
+
+(setq preview-gs-command
+  (cond ((eq system-type 'windows-nt)
+         "C:/texlive/2014/tlpkg/tlgs/bin/gswin32c.exe")
+        (t
+         "/usr/bin/gs")))
+#+end_src
+
+Support des images PNG dans Emacs :
+
+- Besoin de ~libpng16.dll~ ou de ~libpng14-14.dll~ \\
+  (et éventuellement de ~zlib1.dll~).
+
+- Informations supplémentaires :
+  + Fichier ~README.W32~ (ou ~nt/INSTALL~) pour Windows.
+  + Variable ~image-library-alist~ (liste des DLL par type d'image).
+
+#+beamer: \framebreak
+
+Vérification du support dans votre Emacs :
+
+#+begin_src emacs-lisp :results silent
+M-: (image-type-available-p 'png) RET
+#+end_src
+
+Raccourcis :
+
+- \keys{C-c} \keys{C-p} \keys{C-s} ::
+     Prévisualisation de la section
+
+- \repeatedkeys{C-c} \repeatedkeys{C-p} \keys{C-b} ::
+     Prévisualisation du /buffer/
+
+* Fonctionnalités avancées
+
+** Orgtbl
+
+Éditer un tableau dans la source LaTeX avec les facilités d'édition Org :
+- Utiliser un environnement =comment=
+- Appuyer sur \keys{C-c} \keys{C-c} pour exporter le tableau en LaTeX
+
+#+begin_src latex :exports code
+\usepackage{comment}
+
+\begin{document}
+
+\begin{longtable}{rll}
+  % BEGIN RECEIVE ORGTBL my-long-table
+  % END RECEIVE ORGTBL my-long-table
+\end{longtable}
+%
+\begin{comment}
+  #+ORGTBL: SEND my-long-table orgtbl-to-latex :splice t :escape t
+  |---------------------+---------+--------|
+  | date                | session | remark |
+  |---------------------+---------+--------|
+  | \endhead 2014-06-18 | s140618 |        |
+\end{comment}
+%
+#+end_src
+
+** Message de Denis Bitouzé                                        :B_fullframe:
+:PROPERTIES:
+:BEAMER_env: fullframe
+:BEAMER_opt: c,plain
+:END:
+
+#+begin_center
+\Huge{Super présentation, \\ mais on doit terminer à temps}
+#+end_center
+
+** Outline
+
+Schéma (décrivant la structure)
+
+#+begin_src emacs-lisp
+;; Turn on Outline mode.
+(defun turn-on-outline-minor-mode ()
+  (outline-minor-mode 1))
+
+(add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
+(add-hook 'latex-mode-hook 'turn-on-outline-minor-mode)
+
+;; Bind the outline minor mode functions to an easy to remember prefix
+;; key (more accessible than the horrible prefix `C-c @').
+(setq outline-minor-mode-prefix (kbd "C-c C-o")) ; Like in nXML mode.
+#+end_src
+
+- \keys{C-c} \keys{C-o} \keys{C-l} ::
+     Cacher les feuilles.
+
+- \repeatedkeys{C-c} \repeatedkeys{C-o} \keys{C-n} ::
+     Suivant.
+
+- \repeatedkeys{C-c} \repeatedkeys{C-o} \keys{C-p} ::
+     Précédent.
+
+- \repeatedkeys{C-c} \repeatedkeys{C-o} \keys{C-a} ::
+     Montrer tout.
+
+Commandes ~outline-demote~ et ~outline-promote~ ???
+
+** Édition de rectangles
+
+- \keys{C-x} \keys{r} \keys{k} ::
+     Couper le texte de la « région-rectangle »
+
+- \repeatedkeys{C-x} \repeatedkeys{r} \keys{M-w} ::
+     Copier le rectangle sélectionné
+
+- \repeatedkeys{C-x} \repeatedkeys{r} \keys{y} ::
+     Coller le rectangle copié
+
+- \repeatedkeys{C-x} \repeatedkeys{r} \keys{d} ::
+     Supprimer le texte du rectangle
+
+- \repeatedkeys{C-x} \repeatedkeys{r} \keys{t} ::
+     Remplacer chaque ligne d'un rectangle par une chaîne de caractères donnée
+
+- \repeatedkeys{C-x} \repeatedkeys{r} \keys{C-h} ::
+     Afficher les raccourcis existants pour les commandes « rectangle »
+
+** Enregistrer et exécuter une macro
+
+- \keys{C-x} \keys{(} ::
+     Débuter l'enregistrement d'une macro clavier.
+
+- \repeatedkeys{C-x} \keys{)} ::
+     Arrêter l'enregistrement de la macro clavier.
+
+- \repeatedkeys{C-x} \keys{e} ::
+     Exécuter la dernière macro enregistrée.
+
+     Après un \keys{C-x} \keys{e} initial, on peut utiliser la touche \keys{e}
+     toute seule.
+
+# - ~M-x name-last-kbd-macro~ ::
+#      Donner un nom à la dernière macro enregistrée. Par la suite, elle pourra
+#      être appelée par ~M-x nom-de-la-macro~
+#
+# - ~M-x insert-kbd-macro~ ::
+#      Insérer dans le buffer courant le code Lisp qui sert à générer une macro.
+#
+#      Cela permet de la rendre permanente en insérant ce code dans votre fichier
+#      =.emacs=.
+
+Exemple : remplacement (des ~item~) d'un environnement ~itemize~ par un
+environnement ~description~.
+
+** M-x ediff-buffers
+
+# #+CAPTION: http://www.gnu.org/software/emacs/tour/images/ediff.png
+#+ATTR_LaTeX: :float t :width .65\linewidth
+[[file:images/ediff.png]]
+
+** Dired
+
+#+ATTR_LaTeX: :float t
+[[file:images/2014-02-24-Emacs-tips-use-Dired-to-manage-files-dired-emacs.png]]
+
+** Dictionary mode
+
+#+begin_src emacs-lisp
+;; Client for rfc2229 dictionary servers.
+(when (require "dictionary-autoloads" nil t)
+
+  (global-set-key
+    (kbd "C-c d s") 'dictionary-search)
+  (global-set-key
+    (kbd "C-c d l") 'dictionary-lookup-definition)
+  (global-set-key
+    (kbd "C-c d m") 'dictionary-match-words)
+
+  (with-eval-after-load "dictionary"
+
+    (global-dictionary-tooltip-mode 1)
+
+    ;; ;; Server contacted for searching the dictionary.
+    ;; (setq dictionary-server "localhost")
+
+  ))
+#+end_src
+
+** Highlight line
+
+#+begin_src emacs-lisp
+(require 'hl-line)
+(hl-line-mode)
+#+end_src
+
+** COMMENT Activer l'expansion dynamique (abbrev-mode)
+
+** COMMENT Insérer un signet (bookmark)
+
+* Conclusions
+
+** Continuer à apprendre
+
+- Lire la documentation ([[http://www.gnu.org/software/emacs/][GNU Emacs]], [[http://www.emacswiki.org/][EmacsWiki]], etc.)
+- Étudier les configurations des autres ([[https://github.com/fniessen/emacs-leuven][Emacs Leuven]], [[http://www.dotemacs.de/][Dot emacs]], etc.)
+- Regarder des tutoriels vidéo ([[http://www.emacsrocks.com/][Emacs Rocks]], etc.)
+
+** Ne pas se laisser intimider
+
+... par la courbe d'apprentissage
+
+# (http://www.slideshare.net/dmgerman/on-editing-text-and-emacs, page 38)
+
+#+ATTR_LaTeX: :float t :width .52\linewidth
+[[file:images/courbe-apprentissage.png]]
+
+Apprendre Emacs n'est pas facile (n'est pas compliqué non plus), \\
+mais *vous ne le regretterez jamais* !
+
+** Coordonnées
+
+Consultant IT @ [[http://www.pirilampo.be/][Pirilampo SPRL]] \\
+Auteur @ [[http://www.pirilampo.org/][Pirilampo.org]]
+
+\vfill{}
+
+*** Gauche                                                               :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+| [[https://github.com/fniessen][GitHub]]     | ~fniessen~        |
+| [[http://be.linkedin.com/pub/fabrice-niessen/0/a42/200][LinkedIn]]   | ~fabrice-niessen~ |
+| [[http://www.slideshare.net/fniessen][SlideShare]] | ~fniessen~        |
+| [[https://twitter.com/f_niessen][Twitter]]    | ~f_niessen~       |
+
+*** Droite                                                               :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+| Vous avez des idées ? |
+| Contactez-moi !       |
+
+* Références                                                          :noexport:
+
+** Références
