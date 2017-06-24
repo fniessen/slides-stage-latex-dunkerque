@@ -1,21 +1,8 @@
 % Intended LaTeX compiler: pdflatex
-\documentclass[t]{beamer}
+\documentclass[t]{mcarticle}
+% org-mc-latex.el ----------------------
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{graphicx}
-\usepackage{grffile}
-\usepackage{longtable}
-\usepackage{wrapfig}
-\usepackage{rotating}
-\usepackage[normalem]{ulem}
-\usepackage{amsmath}
-\usepackage{textcomp}
-\usepackage{amssymb}
-\usepackage{capt-of}
-\usepackage{hyperref}
-\usepackage{listings}
-\usepackage{xcolor}
-\usepackage[french, frenchb]{babel}
+% extra (#+LaTeX_HEADER: lines) --------
 % typeset source code listings
 \usepackage{listings}
 \usepackage{xcolor}
@@ -129,29 +116,11 @@ literate=
 \let\ORIkeys\keys
 \renewcommand{\keys}[1]{\ORIkeys{\texttt{#1}}}
 \newcommand{\repeatedkeys}[1]{\keys{\textcolor{gray}{#1}}}
-\usetheme{default}
+
+% end of `org-latex-classes' -------------------------------------------------
 \author{\href{mailto:fniessen@pirilampo.org}{Fabrice Niessen}}
 \date{28 juin 2017}
 \title{Emacs + AUCTeX}
-\subtitle{Le meilleur éditeur pour \LaTeX}
-\institute[Pirilampo]{}
-\titlegraphic{\includegraphics[height=1.5cm]{images/Pirilampo}}
-\AtBeginSection{%
-\begin{frame}
-\frametitle{Plan}
-\tableofcontents[currentsection]
-\end{frame}
-}
-\AtBeginSubsection{%
-\begin{frame}
-\frametitle{Plan}
-\tableofcontents[currentsection,currentsubsection]
-\end{frame}
-}
-\usepackage{lmodern}
-\usetheme{AnnArbor}
-\usecolortheme{crane}
-\beamertemplatenavigationsymbolsempty
 \hypersetup{
  pdfauthor={\href{mailto:fniessen@pirilampo.org}{Fabrice Niessen}},
  pdftitle={Emacs + AUCTeX},
@@ -166,15 +135,15 @@ literate=
 \begin{frame}[plain]
 \maketitle
 \end{frame}
-\begin{frame}{Plan}
 \tableofcontents
-\end{frame}
 
 
 \section{Aperçu}
-\label{sec:org552f5d3}
+\label{sec:orgf5d2235}
 
-\begin{frame}[label={sec:orgc128369}]{Description}
+\subsection{Description}
+\label{sec:orged1b528}
+
 Bienvenue dans le cours Emacs + AUC\TeX{}. Il contient la documentation de
 référence qui décrit comment écrire du code \LaTeX{} avec :
 
@@ -183,18 +152,19 @@ référence qui décrit comment écrire du code \LaTeX{} avec :
 \item la librairie AUC\TeX{}.
 \end{itemize}
 
-Ces outils \alert{libres} et \alert{gratuits} vous permettent de produire facilement des
-documents \alert{PDF de haute qualité} qui vont être affichés sur tous les ordinateurs
+Ces outils \textbf{libres} et \textbf{gratuits} vous permettent de produire facilement des
+documents \textbf{PDF de haute qualité} qui vont être affichés sur tous les ordinateurs
 exactement comme ils l'étaient sur le vôtre.
-\end{frame}
 
-\begin{frame}[label={sec:orgabcaef1}]{Caractéristiques et objectifs}
-Les avantages évidents d'utiliser Emacs + AUC\TeX{} sont d'être \alert{plus productif}
+\subsection{Caractéristiques et objectifs}
+\label{sec:org2ec0048}
+
+Les avantages évidents d'utiliser Emacs + AUC\TeX{} sont d'être \textbf{plus productif}
 pour éditer du \LaTeX{}.
 
 À côté de fonctions standards comme la navigation aisée dans le document ou la
 vérification orthographique et syntaxique à la volée, Emacs offre des
-\alert{fonctionnalités avancées} (et homogènes) pour tout \alert{type de fichiers}. Par
+\textbf{fonctionnalités avancées} (et homogènes) pour tout \textbf{type de fichiers}. Par
 exemple :
 
 \begin{itemize}
@@ -203,9 +173,10 @@ exemple :
 \item macros,
 \item Helm.
 \end{itemize}
-\end{frame}
 
-\begin{frame}[label={sec:orga70de46}]{Exigences}
+\subsection{Exigences}
+\label{sec:orgd3cc4d2}
+
 \begin{itemize}
 \item Une version d'Emacs 25 (si possible).
 
@@ -213,18 +184,21 @@ exemple :
 PDF. Si elle n'est pas encore installée sur votre système, installer \href{http://www.tug.org/texlive/}{\TeX{} Live}
 (par exemple).
 \end{itemize}
-\end{frame}
 
-\begin{frame}[label={sec:org3980eac}]{Besoin de plusieurs outils dans votre boîte}
+\subsection{Besoin de plusieurs outils dans votre boîte}
+\label{sec:org48cb441}
+
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=.75\linewidth]{images/toolbox-messy.png}
 \end{figure}
-\end{frame}
 
-\begin{frame}[label={sec:orgd018f24}]{Emacs intègre tous ces outils}
-\begin{columns}
-\begin{column}{0.57\columnwidth}
+\subsection{Emacs intègre tous ces outils}
+\label{sec:orga0608f6}
+
+\begin{enumerate}
+\item Left column\hfill{}\fbox{\textsc{BMCOL}}
+\label{sec:org0fa66b2}
 \begin{itemize}
 \item Très puissant
 \item Générique et spécialisé (environnement de développement pour beaucoup de
@@ -232,24 +206,26 @@ langages, gestionnaire de fichiers, terminal \emph{shell}, client mail, navigate
 Web, client IRC, Tetris, etc.)
 \item Complètement extensible et personnalisable (en Lisp)
 \end{itemize}
-\end{column}
 
-\begin{column}{0.4\columnwidth}
+\item Right column\hfill{}\fbox{\textsc{BMCOL}}
+\label{sec:org6236b33}
 \begin{center}
 \includegraphics[width=\linewidth]{images/toolbox-tidy.png}
 \end{center}
-\end{column}
-\end{columns}
 
+\item End of columns\hfill{}\fbox{\textsc{B_ignoreheading}}
+\label{sec:orgb9cde3d}
 \begin{itemize}
 \item Libre et gratuit
 \item Multi-plate-forme (Linux, MacOS, Windows)
 \end{itemize}
-\end{frame}
+\end{enumerate}
 
-\begin{frame}[label={sec:orgb8a7fe7}]{Productivité = capacité à ÉDITER DU TEXTE}
+\subsection{Productivité = capacité à ÉDITER DU TEXTE}
+\label{sec:orga087469}
+
 Emacs ne devrait pas être vu comme un éditeur : c'est un environnement de
-développement logiciel avec de \alert{puissantes capacités d'édition de texte}. Et
+développement logiciel avec de \textbf{puissantes capacités d'édition de texte}. Et
 c'est même encore beaucoup plus que cela !
 
 \begin{quote}
@@ -260,34 +236,38 @@ makes everything else vanish. » \\
 \emph{In the Beginning was the Command Line} (1998)
 \end{quote}
 
-Emacs est mon outil \alert{le plus important} !
-\end{frame}
+Emacs est mon outil \textbf{le plus important} !
 
 \section{Bases pour utiliser Emacs}
-\label{sec:orgf090736}
+\label{sec:org8ef86cb}
 
-\begin{frame}[label={sec:orgadfcf36}]{Terminologie Emacs}
+\subsection{Terminologie Emacs}
+\label{sec:orge565181}
+
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=.65\linewidth]{images/emacs-labeled.png}
 \end{figure}
-\end{frame}
 
-\begin{frame}[label={sec:org476981f}]{Ne pas utiliser la souris}
+\subsection{Ne pas utiliser la souris}
+\label{sec:org7120e14}
+
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=.9\linewidth]{images/elephants.png}
 \end{figure}
-\end{frame}
 
-\begin{frame}[label={sec:org3bf7b5a}]{Exemple de fichier \LaTeX{} sous Emacs}
+\subsection{Exemple de fichier \LaTeX{} sous Emacs}
+\label{sec:org72707ab}
+
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=.65\linewidth]{images/toolbar.png}
 \end{figure}
-\end{frame}
 
-\begin{frame}[label={sec:org8e2393d}]{Notation des raccourcis clavier}
+\subsection{Notation des raccourcis clavier}
+\label{sec:org6a27ce9}
+
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=.5\linewidth]{images/clavier_azerty.png}
@@ -302,20 +282,22 @@ Emacs est mon outil \alert{le plus important} !
 \end{description}
 \item \keys{C-h} \keys{t} signifie \\
 « maintenir \keys{\ctrl} en tapant \keys{h}, puis lâcher et taper \keys{t} »
-\item \keys{M-x} pour \alert{exécuter une commande} nommée (qui n'a pas de raccourci)
+\item \keys{M-x} pour \textbf{exécuter une commande} nommée (qui n'a pas de raccourci)
 \end{itemize}
-\end{frame}
 
-\begin{frame}[label={sec:orgc89c3bb}]{Manipuler un fichier}
+\subsection{Manipuler un fichier}
+\label{sec:org3107a96}
+
 \begin{description}
 \item[{\keys{C-x} \keys{C-f}}] Ouvrir un fichier (compléter le nom avec \keys{TAB})
 \item[{\repeatedkeys{C-x} \keys{C-s}}] Sauvegarder le fichier
 \item[{\repeatedkeys{C-x} \keys{C-w}}] Sauvegarder le fichier sous un autre nom
 \item[{\repeatedkeys{C-x} \keys{C-c}}] Quitter Emacs
 \end{description}
-\end{frame}
 
-\begin{frame}[label={sec:org1e2e062}]{Manipuler un écran}
+\subsection{Manipuler un écran}
+\label{sec:orgeabe40b}
+
 Les commandes suivantes servent à manipuler des écrans :
 
 \begin{description}
@@ -326,16 +308,18 @@ placé au milieu de l'écran \ldots{}
 \item[{\keys{C-l C-l}}] \ldots{} texte autour du curseur placé au-dessus de l'écran
 \item[{\keys{C-l C-l C-l}}] \ldots{} texte autour du curseur placé au-dessous de l'écran
 \end{description}
-\end{frame}
 
-\begin{frame}[label={sec:org7f07407}]{Annuler}
+\subsection{Annuler}
+\label{sec:org3850e2e}
+
 \begin{description}
 \item[{\keys{C-g}}] Stopper une commande (ou débloquer Emacs quand il ne répond plus)
 \item[{\keys{C-x} \keys{u}}] Annuler la dernière modification\footnote{Synonyme de \keys{C-\_}}
 \end{description}
-\end{frame}
 
-\begin{frame}[label={sec:org0ebd8c2}]{Couper / Copier / Coller}
+\subsection{Couper / Copier / Coller}
+\label{sec:orgda127fe}
+
 \begin{description}
 \item[{\keys{C-SPC}}] Marquer le début d'une région
 \item[{\keys{C-w}}] Couper
@@ -347,15 +331,16 @@ coupée ou copiée
 
 Il existe un mode (CUA) qui permet d'émuler le \keys{C-x} / \keys{C-c}
 / \keys{C-v} mais il est perturbant.
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orgb28b5b7}]{Chercher}
- \begin{description}
+\subsection{Chercher}
+\label{sec:orgd4282e5}
+
+\begin{description}
 \item[{\keys{C-s} (ou \keys{C-r})}] Chercher en avant (ou en arrière)
 
 \pause
 
-Recherche \alert{incrémentale} : Emacs recherche la première occurrence
+Recherche \textbf{incrémentale} : Emacs recherche la première occurrence
 correspondant à chaque caractère entré.
 
 \pause
@@ -366,14 +351,12 @@ Refaire \keys{C-s} ou \keys{C-r} pour aller sur l'occurrence suivante.
 
 \item[{\keys{M-s} \keys{o}}] Montrer toutes les lignes contenant une correspondance pour une \emph{expression
 régulière}
-\footnote<4->{Motif décrivant un ensemble de chaînes de caractères possibles selon une syntaxe précise.}
-
 Pour atteindre une ligne donnée, cliquer dessus dans la fenêtre \texttt{*Occur*}.
-\footnote<4->{On peut fermer cette fenêtre \alert{spéciale} (car présence des étoiles dans le nom) avec \keys{C-x 1} à partir de la fenêtre principale.}
 \end{description}
-\end{frame}
 
-\begin{frame}[label={sec:orga067b87}]{Rechercher / remplacer}
+\subsection{Rechercher / remplacer}
+\label{sec:org18becf7}
+
 \begin{description}
 \item[{\keys{M-\%}}] Remplacer une chaîne de caractères par une autre
 
@@ -403,9 +386,10 @@ occurrences.
 confirmation.
 \end{description}
 \end{description}
-\end{frame}
 
-\begin{frame}[label={sec:org6d6a5aa}]{Manipuler des lignes}
+\subsection{Manipuler des lignes}
+\label{sec:orgdcddfd5}
+
 \begin{description}
 \item[{\keys{M-g g}}] Déplacer le point vers un numéro de ligne donné
 
@@ -413,16 +397,18 @@ confirmation.
 
 \item[{\keys{M-;}}] Commenter
 \end{description}
-\end{frame}
 
-\begin{frame}[label={sec:org804d495}]{Mettre en forme du texte}
+\subsection{Mettre en forme du texte}
+\label{sec:orgc55c382}
+
 \begin{description}
 \item[{\keys{TAB}}] Indenter la ligne courante (pour la plupart des types de fichiers)
 \item[{\keys{M-q}}] Convertir une ligne de texte en un paragraphe multi-lignes
 \end{description}
-\end{frame}
 
-\begin{frame}[label={sec:orgb71e7fd}]{Manipuler un \emph{buffer}}
+\subsection{Manipuler un \emph{buffer}}
+\label{sec:org3a7f841}
+
 Emacs stocke le texte de chaque fichier dans un objet appelé « tampon »
 (\emph{buffer}).
 
@@ -434,10 +420,11 @@ Emacs stocke le texte de chaque fichier dans un objet appelé « tampon »
 \item[{\repeatedkeys{C-x} \keys{k}}] Supprimer le \emph{buffer} courant (équivalent de « Fermer le fichier courant »
 dans un autre éditeur)
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:org935e175}]{Ligne de mode}
- \begin{enumerate}
+\subsection{Ligne de mode}
+\label{sec:org7f67968}
+
+\begin{enumerate}
 \item Codage de caractères (\texttt{1} = Latin 1, \texttt{U} = UTF-8, etc.)
 \end{enumerate}
 
@@ -455,26 +442,28 @@ dans un autre éditeur)
 \item Position relative (en pourcent, ou \texttt{Top} ou \texttt{Bottom}) et numéro de la ligne
 courante
 
-\item Un \alert{mode majeur} pour éditer du texte (\texttt{Text}, \texttt{LaTeX}, etc.) ou un langage de
+\item Un \textbf{mode majeur} pour éditer du texte (\texttt{Text}, \texttt{LaTeX}, etc.) ou un langage de
 programmation (\texttt{Python}, etc.)
 
-\item Plusieurs \alert{modes mineurs} modifiant le mode majeur (\texttt{Flyspell}, \texttt{Auto Fill}, etc.)
+\item Plusieurs \textbf{modes mineurs} modifiant le mode majeur (\texttt{Flyspell}, \texttt{Auto Fill}, etc.)
 \end{enumerate}
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\linewidth]{images/modeline.png}
 \end{figure}
-\end{frame}
 
-\begin{frame}[label={sec:orgd968960}]{Obtenir de l'aide}
+\subsection{Obtenir de l'aide}
+\label{sec:org8a876ca}
+
 \begin{description}
 \item[{\keys{C-h} \keys{t}}] Accéder au tutorial d'Emacs
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:org713c4e1}]{Configurer Emacs}
- \begin{itemize}
+\subsection{Configurer Emacs}
+\label{sec:orga7bbd46}
+
+\begin{itemize}
 \item Fichier de configuration \texttt{\textasciitilde{}/.emacs} ou \texttt{\textasciitilde{}/.emacs.d/init.el} \footnote{\texttt{\textasciitilde{}} est le
 répertoire personnel de l'utilisateur (par défaut, sous Windows :
 \texttt{C:\textbackslash{}Users\textbackslash{}<utilisateur>\textbackslash{}AppData\textbackslash{}Roaming})}
@@ -490,9 +479,10 @@ répertoire personnel de l'utilisateur (par défaut, sous Windows :
 \item Ajout d'options automatiquement via \keys{M-x} \keys{customize} (ou menu
 \menu{Options > Customize Emacs})
 \end{itemize}
-\end{frame}
 
-\begin{frame}[label={sec:org140cc81}]{Fonctionnalités supplémentaires}
+\subsection{Fonctionnalités supplémentaires}
+\label{sec:orgdf40cc7}
+
 Il y a encore plein d'autres choses (non traitées ici) :
 
 \begin{itemize}
@@ -510,10 +500,11 @@ Certaines proviennent de \emph{packages} supplémentaires à installer en utilis
 \item Marquer le(s) \emph{package(s)} à installer avec \keys{i}
 \item Appuyer sur \keys{x} pour lancer la procédure d'installation
 \end{enumerate}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:org62741b0}]{Helm (levier de commande)}
- \begin{itemize}
+\subsection{Helm (levier de commande)}
+\label{sec:orgf7f4914}
+
+\begin{itemize}
 \item Rechercher un \emph{buffer}
 
 \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
@@ -550,10 +541,11 @@ affichage des sectionnements avec sélection par expression régulière)
   (global-set-key (kbd "M-x") 'helm-M-x)
 \end{lstlisting}
 \end{itemize}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orgd36a2ea}]{Sauvegarde de la position du curseur}
- \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
+\subsection{Sauvegarde de la position du curseur}
+\label{sec:orgb2d1e4d}
+
+\lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 ;; Automatically save place in each file.
 (require 'saveplace)
@@ -562,10 +554,11 @@ affichage des sectionnements avec sélection par expression régulière)
 
 Quand vous ouvrez un fichier, le curseur va à la place où il était la dernière
 fois que vous l'avez ouvert.
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orgb7d914d}]{Vérification orthographique à la volée}
- \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
+\subsection{Vérification orthographique à la volée}
+\label{sec:orgebb553b}
+
+\lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 ;; Spelling checker program.
 (setq ispell-program-name "aspell")     ; Could be ispell or hunspell.
@@ -584,10 +577,11 @@ fois que vous l'avez ouvert.
 \item[{\keys{M-\$} ou \keys{C-c} \keys{\$}}] Ouvrir un menu avec différentes corrections possibles pour le mot sous le
 curseur.
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:org0f87691}]{Vérification syntaxique à la volée}
- \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
+\subsection{Vérification syntaxique à la volée}
+\label{sec:org1be0044}
+
+\lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 (require 'flymake)
 
@@ -608,10 +602,11 @@ curseur.
 
 \item[{\keys{M-x} \keys{flymake-goto-next-error} \keys{RET}}] Aller vers la prochaine erreur dans le \emph{ring} \emph{err}.
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orgb825f09}]{Compilation \LaTeX{} par défaut}
- \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
+\subsection{Compilation \LaTeX{} par défaut}
+\label{sec:orgc2d0aa8}
+
+\lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 (defun TeX-default ()
   "Choose the default command from `C-c C-c'."
@@ -624,15 +619,16 @@ curseur.
 (define-key LaTeX-mode-map
   (kbd "<f9>") 'tex-default)
 \end{lstlisting}
-\end{frame}
 
 \section{Modes pour éditer du \LaTeX{}}
-\label{sec:orge1e0b5d}
+\label{sec:org6b2e1c6}
 
 \subsection{AUC\TeX{}}
-\label{sec:orgedb0b80}
+\label{sec:org1bc8529}
 
-\begin{frame}[label={sec:orgca22043}]{Description}
+\begin{enumerate}
+\item Description\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:orgbcd68c2}
 \begin{itemize}
 \item Édition facilitée
 \begin{itemize}
@@ -642,10 +638,10 @@ curseur.
 \item Compilation d'un document \LaTeX{} directement dans Emacs
 \item Navigation d'erreur en erreur
 \end{itemize}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orgc6e2d6e}]{Appariage de certains caractères}
- \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
+\item Appariage de certains caractères\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:orga376ccc}
+\lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 (defun insert-parentheses ()
   "Insert parentheses and go between them."
@@ -671,10 +667,10 @@ curseur.
 
 (global-set-key "{" 'insert-braces)
 \end{lstlisting}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orgfde953a}]{Mise en forme du texte}
- \begin{description}
+\item Mise en forme du texte\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org6ba664d}
+\begin{description}
 \item[{\keys{C-c} \keys{C-f} \keys{C-b}}] \texttt{\textbackslash{}textbf\{...\}}
 \item[{\repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-i}}] \texttt{\textbackslash{}textit\{...\}}
 \item[{\repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-e}}] \texttt{\textbackslash{}emph\{...\}}
@@ -685,10 +681,10 @@ curseur.
 \item[{\repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-c}}] \texttt{\textbackslash{}textsc\{...\}}
 \item[{\repeatedkeys{C-c} \repeatedkeys{C-f} \keys{C-h}}] Afficher un menu avec les différentes possibilités
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:org2eaf105}]{Insertion de sections}
- \begin{description}
+\item Insertion de sections\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org87efabf}
+\begin{description}
 \item[{\keys{C-c} \keys{C-s}}] Insérer une section :
 \begin{itemize}
 \item \texttt{\textbackslash{}part},
@@ -701,18 +697,18 @@ curseur.
 \end{itemize}
 Compléter le nom avec \keys{TAB}.
 \end{description}
-\end{frame}
 
-\begin{frame}[label={sec:orgcddaf17}]{Insertion de commandes}
+\item Insertion de commandes\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org5604957}
 \begin{description}
 \item[{\keys{C-c} \keys{RET}}] Insérer une macro \TeX{}.
 
 Compléter le nom avec \keys{TAB}.
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:org77c8f3f}]{Insertion d'environnements}
- \begin{description}
+\item Insertion d'environnements\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:orgd7a657c}
+\begin{description}
 \item[{\keys{C-c} \keys{C-e}}] Insérer un environnement (\texttt{\textbackslash{}begin\{...\}} .. \texttt{\textbackslash{}end\{...\}}).
 
 Compléter le nom avec \keys{TAB}.
@@ -728,10 +724,10 @@ Dans un environnement de type \texttt{itemize} :
 
 \item[{\keys{C-c} \keys{]}}] Insérer un \texttt{\textbackslash{}end\{...\}} pour fermer l'environnement courant.
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:org202010e}]{Compilation}
- \begin{description}
+\item Compilation\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org5367da8}
+\begin{description}
 \item[{\keys{C-c} \keys{C-c}}] Exécuter une commande sur le document.
 
 \begin{description}
@@ -751,10 +747,10 @@ Compiler vers PDF par défaut :
 ;; Use PDF mode by default (instead of DVI).
 (setq-default TeX-PDF-mode t)
 \end{lstlisting}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orged29882}]{Erreurs}
- \begin{description}
+\item Erreurs\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org19e7f0b}
+\begin{description}
 \item[{\keys{C-c} \keys{C-l}}] Afficher les messages de compilation
 
 \item[{\repeatedkeys{C-c} \keys{`}}] Aller à la prochaine erreur détectée :
@@ -767,26 +763,25 @@ combinaison de touches par la touche \keys{f10} avec :
      (global-set-key (kbd "<f10>") 'TeX-next-error)
 \end{lstlisting}
 \end{description}
-\end{frame}
 
-\begin{frame}[label={sec:orgc8dce08}]{Documentation \TeX{}}
+\item Documentation \TeX{}\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org3b4c23b}
 \begin{description}
 \item[{\keys{C-c} \keys{?}}] Trouver la documentation de la chose (\emph{package}, commande ou document) sur
 lequel le curseur est
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:org83a01c2}]{Activation d'AUC\TeX{}}
- Installation via le
-\hyperlink{package-manager}{\emph{package manager}}
+\item Activation d'AUC\TeX{}\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org1adeb20}
+Installation via le
 intégré à Emacs.
 
-Vous pouvez détecter l'\alert{activation} réussie d'\texttt{AUCTeX} après avoir chargé un
+Vous pouvez détecter l'\textbf{activation} réussie d'\texttt{AUCTeX} après avoir chargé un
 fichier \LaTeX{} : ajout d'un menu \texttt{Command}.
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orgd59bf7a}]{Quelques variables d'intérêt}
- \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
+\item Quelques variables d'intérêt\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:orge95242e}
+\lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 ;; Don't assume that the file is a master file itself.
 (setq-default TeX-master nil)
@@ -800,22 +795,24 @@ fichier \LaTeX{} : ajout d'un menu \texttt{Command}.
 ;; Enable automatic save of parsed style information when saving the buffer.
 (setq TeX-auto-save t)
 \end{lstlisting}
-\end{frame}
 
-\begin{frame}[label={sec:org1dd7a3d}]{Formatage}
+\item Formatage\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org885a478}
 \begin{description}
 \item[{\keys{C-c} \keys{C-q} \keys{C-e}}] Formater l'environnement
 \item[{\repeatedkeys{C-c} \repeatedkeys{C-q} \keys{C-p}}] Formater le paragraphe
 \item[{\repeatedkeys{C-c} \repeatedkeys{C-q} \keys{C-r}}] Formater la région
 \item[{\repeatedkeys{C-c} \repeatedkeys{C-q} \keys{C-s}}] Formater la section
 \end{description}
-\end{frame}
+\end{enumerate}
 
 \subsection{RefTeX}
-\label{sec:org850fcb2}
+\label{sec:org1437ef2}
 
-\begin{frame}[fragile,label={sec:org1116b43}]{Description}
- RefTeX est un mode mineur (écrit par Carsten Dominik\footnote{Auteur d'Org mode})
+\begin{enumerate}
+\item Description\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org4caea6b}
+RefTeX est un mode mineur (écrit par Carsten Dominik\footnote{Auteur d'Org mode})
 qui améliore AUC\TeX{}, en offrant un support pour :
 
 \begin{itemize}
@@ -826,9 +823,9 @@ qui améliore AUC\TeX{}, en offrant un support pour :
 \item l'ajout de macros quelconques (\keys{C-c} \keys{RET}, avec \keys{TAB} pour
 compléter)
 \end{itemize}
-\end{frame}
 
-\begin{frame}[label={sec:org72ddf1f}]{Table des matières}
+\item Table des matières\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:orgb4bf39f}
 \begin{description}
 \item[{\keys{C-c} \keys{=}}] Afficher une table des matières du document entier (multifichier) avec
 possibilité de navigation.
@@ -836,10 +833,10 @@ possibilité de navigation.
 Presser la lettre \keys{l} va afficher tous les \emph{labels} et toutes les
 citations bibliographiques.
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orgd3e144c}]{Références}
- \begin{description}
+\item Références\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org2f092cc}
+\begin{description}
 \item[{\keys{C-c} \keys{(}}] Créer un label.
 
 \item[{\repeatedkeys{C-c} \keys{)}}] Référencer un label.
@@ -850,10 +847,10 @@ et le contexte de leur définition.
 Le label sélectionné peut être inséré comme une macro \texttt{\textbackslash{}ref} (via
 \keys{C-m}), \texttt{\textbackslash{}pageref}, \texttt{\textbackslash{}autoref} ou \texttt{\textbackslash{}autopageref}.
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orge4ab8cb}]{Références croisées}
- \begin{description}
+\item Références croisées\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:orgf7c2a1a}
+\begin{description}
 \item[{\keys{C-c} \keys{\&}}] Visualiser la référence croisée de la macro courante.
 
 \begin{itemize}
@@ -866,17 +863,17 @@ supplémentaires pour montrer les autres \texttt{\textbackslash{}ref})
 \item Sur un \texttt{\textbackslash{}index}, montre d'autres places utilisant la même entrée d'index
 \end{itemize}
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:org6f4d21f}]{Citations bibliographiques}
- \begin{description}
+\item Citations bibliographiques\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org96c9efe}
+\begin{description}
 \item[{\keys{C-c} \keys{[} \keys{REGEXP}}] Créer une citation bibliographique (insérée comme une macro \texttt{\textbackslash{}cite}) en la
-choisissant à partir d'une liste \alert{formatée} d'articles de votre base
+choisissant à partir d'une liste \textbf{formatée} d'articles de votre base
 BibTeX.
 \end{description}
-\end{frame}
 
-\begin{frame}[label={sec:org8c87d86}]{Index}
+\item Index\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org97aa313}
 \begin{description}
 \item[{\keys{C-c} \keys{/}}] Créer une entrée d'index (avec le mot courant ou la sélection courante).
 \end{description}
@@ -884,9 +881,9 @@ BibTeX.
 \begin{description}
 \item[{\repeatedkeys{C-c} \keys{>}}] Afficher l'index compilé.
 \end{description}
-\end{frame}
 
-\begin{frame}[label={sec:org2a9c4a8}]{Promotion / « démotion » de niveau}
+\item Promotion / « démotion » de niveau\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org25d913a}
 \begin{description}
 \item[{\keys{<}}] Promouvoir\footnote{Donner plus d'importance (par exemple, une subsection
 devient une section)} la section courante, ou toutes les sections dans la
@@ -895,10 +892,10 @@ région courante.
 \item[{\keys{>}}] « Démouvoir » la section courante, ou toutes les sections dans la région
 courante.
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:org63297eb}]{Activation de RefTeX}
- \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
+\item Activation de RefTeX\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:orgbbccd32}
+\lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 (add-hook 'LaTeX-mode-hook 'reftex-mode) ; With AUCTeX LaTeX mode.
 
@@ -909,22 +906,24 @@ courante.
 ;; menu generally comes up faster.
 (setq reftex-use-multiple-selection-buffers t)
 \end{lstlisting}
-\end{frame}
+\end{enumerate}
 
 \subsection{Preview-latex}
-\label{sec:orgb27dee7}
+\label{sec:org7a12de4}
 
-\begin{frame}[fragile,label={sec:orgbb9df5d}]{Description}
- Prévisualisation WYSIWYG\footnote{What You See Is What You Get} de maths, figures,
+\begin{enumerate}
+\item Description\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:orgc039b97}
+Prévisualisation WYSIWYG\footnote{What You See Is What You Get} de maths, figures,
 tableaux, graphiques, etc. directement dans le \emph{buffer} source (sous forme
 d'images PNG)
 
-Vous pouvez détecter l'\alert{activation} réussie de \texttt{preview-latex} après avoir chargé
+Vous pouvez détecter l'\textbf{activation} réussie de \texttt{preview-latex} après avoir chargé
 un fichier \LaTeX{} : ajout d'un menu \texttt{Preview}.
-\end{frame}
 
-\begin{frame}[fragile,allowframebreaks,label=]{Prévisualisation dans la source}
- \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
+\item Prévisualisation dans la source\hfill{}\fbox{\textsc{B_frame}}
+\label{sec:org48e0ce0}
+\lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 ;; (setq preview-image-type 'png)          ; 'jpeg en cas de problème ?
 
@@ -948,8 +947,6 @@ Support des images PNG dans Emacs :
 \end{itemize}
 \end{itemize}
 
-\framebreak
-
 Vérification du support dans votre Emacs :
 
 \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
@@ -964,13 +961,15 @@ Raccourcis :
 
 \item[{\repeatedkeys{C-c} \repeatedkeys{C-p} \keys{C-b}}] Prévisualisation du \emph{buffer}
 \end{description}
-\end{frame}
+\end{enumerate}
 
 \section{Fonctionnalités avancées}
-\label{sec:org2e68345}
+\label{sec:orgeb5e2d9}
 
-\begin{frame}[fragile,label={sec:orgade84c4}]{Orgtbl}
- Éditer un tableau dans la source \LaTeX{} avec les facilités d'édition Org :
+\subsection{Orgtbl}
+\label{sec:org3fba05f}
+
+Éditer un tableau dans la source \LaTeX{} avec les facilités d'édition Org :
 \begin{itemize}
 \item Utiliser un environnement \texttt{comment}
 \item Appuyer sur \keys{C-c} \keys{C-c} pour exporter le tableau en \LaTeX{}
@@ -996,16 +995,17 @@ Raccourcis :
 \end{comment}
 %
 \end{lstlisting}
-\end{frame}
 
-\begin{frame}[c,plain,label={sec:orgcc7e848}]{}
+\subsection{Message de Denis Bitouzé\hfill{}\fbox{\textsc{B_fullframe}}}
+\label{sec:org4258aaa}
 \begin{center}
 \Huge{Super présentation, \\ mais on doit terminer à temps}
 \end{center}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orgf2b5a4c}]{Outline}
- Schéma (décrivant la structure)
+\subsection{Outline}
+\label{sec:orga70f970}
+
+Schéma (décrivant la structure)
 
 \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
@@ -1032,9 +1032,10 @@ Raccourcis :
 \end{description}
 
 Commandes \texttt{outline-demote} et \texttt{outline-promote} ???
-\end{frame}
 
-\begin{frame}[label={sec:orga5c4257}]{Édition de rectangles}
+\subsection{Édition de rectangles}
+\label{sec:orgcafa0af}
+
 \begin{description}
 \item[{\keys{C-x} \keys{r} \keys{k}}] Couper le texte de la « région-rectangle »
 
@@ -1048,10 +1049,11 @@ Commandes \texttt{outline-demote} et \texttt{outline-promote} ???
 
 \item[{\repeatedkeys{C-x} \repeatedkeys{r} \keys{C-h}}] Afficher les raccourcis existants pour les commandes «~rectangle~»
 \end{description}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:org1339ec7}]{Enregistrer et exécuter une macro}
- \begin{description}
+\subsection{Enregistrer et exécuter une macro}
+\label{sec:orgcdfd537}
+
+\begin{description}
 \item[{\keys{C-x} \keys{(}}] Débuter l'enregistrement d'une macro clavier.
 
 \item[{\repeatedkeys{C-x} \keys{)}}] Arrêter l'enregistrement de la macro clavier.
@@ -1064,24 +1066,27 @@ toute seule.
 
 Exemple : remplacement (des \texttt{item}) d'un environnement \texttt{itemize} par un
 environnement \texttt{description}.
-\end{frame}
 
-\begin{frame}[label={sec:orgc167ce2}]{M-x ediff-buffers}
+\subsection{M-x ediff-buffers}
+\label{sec:org5a0aba7}
+
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=.65\linewidth]{images/ediff.png}
 \end{figure}
-\end{frame}
 
-\begin{frame}[label={sec:orgdd3b02a}]{Dired}
+\subsection{Dired}
+\label{sec:orgba0e7f6}
+
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=.75\linewidth]{images/2014-02-24-Emacs-tips-use-Dired-to-manage-files-dired-emacs.png}
 \end{figure}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orgcc0d200}]{Dictionary mode}
- \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
+\subsection{Dictionary mode}
+\label{sec:org0c66b1e}
+
+\lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 ;; Client for rfc2229 dictionary servers.
 (when (require "dictionary-autoloads" nil t)
@@ -1102,28 +1107,31 @@ environnement \texttt{description}.
 
   ))
 \end{lstlisting}
-\end{frame}
 
-\begin{frame}[fragile,label={sec:orga52e019}]{Highlight line}
- \lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
+\subsection{Highlight line}
+\label{sec:orgcc40b95}
+
+\lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 (require 'hl-line)
 (hl-line-mode)
 \end{lstlisting}
-\end{frame}
 
 \section{Conclusions}
-\label{sec:orgf6b7470}
+\label{sec:org8633f23}
 
-\begin{frame}[label={sec:orgb3a6c76}]{Continuer à apprendre}
+\subsection{Continuer à apprendre}
+\label{sec:orgad73c0e}
+
 \begin{itemize}
 \item Lire la documentation (\href{http://www.gnu.org/software/emacs/}{GNU Emacs}, \href{http://www.emacswiki.org/}{EmacsWiki}, etc.)
 \item Étudier les configurations des autres (\href{https://github.com/fniessen/emacs-leuven}{Emacs Leuven}, \href{http://www.dotemacs.de/}{Dot emacs}, etc.)
 \item Regarder des tutoriels vidéo (\href{http://www.emacsrocks.com/}{Emacs Rocks}, etc.)
 \end{itemize}
-\end{frame}
 
-\begin{frame}[label={sec:orgc37e0b0}]{Ne pas se laisser intimider}
+\subsection{Ne pas se laisser intimider}
+\label{sec:orgba0c872}
+
 \ldots{} par la courbe d'apprentissage
 
 \begin{figure}[!htbp]
@@ -1132,17 +1140,19 @@ environnement \texttt{description}.
 \end{figure}
 
 Apprendre Emacs n'est pas facile (n'est pas compliqué non plus), \\
-mais \alert{vous ne le regretterez jamais} !
-\end{frame}
+mais \textbf{vous ne le regretterez jamais} !
 
-\begin{frame}[fragile,label={sec:orgd48f87d}]{Coordonnées}
- Consultant IT @ \href{http://www.pirilampo.be/}{Pirilampo SPRL} \\
+\subsection{Coordonnées}
+\label{sec:orgf0a3a54}
+
+Consultant IT @ \href{http://www.pirilampo.be/}{Pirilampo SPRL} \\
 Auteur @ \href{http://www.pirilampo.org/}{Pirilampo.org}
 
 \vfill{}
 
-\begin{columns}
-\begin{column}{0.48\columnwidth}
+\begin{enumerate}
+\item Left column\hfill{}\fbox{\textsc{BMCOL}}
+\label{sec:org7b88604}
 \begin{center}
 \begin{tabular}{ll}
 \href{https://github.com/fniessen}{GitHub} & \texttt{fniessen}\\
@@ -1151,16 +1161,14 @@ Auteur @ \href{http://www.pirilampo.org/}{Pirilampo.org}
 \href{https://twitter.com/f\_niessen}{Twitter} & \texttt{f\_niessen}\\
 \end{tabular}
 \end{center}
-\end{column}
 
-\begin{column}{0.48\columnwidth}
+\item Right column\hfill{}\fbox{\textsc{BMCOL}}
+\label{sec:org3a6711b}
 \begin{center}
 \begin{tabular}{l}
 Vous avez des idées~?\\
 Contactez-moi~!\\
 \end{tabular}
 \end{center}
-\end{column}
-\end{columns}
-\end{frame}
+\end{enumerate}
 \end{document}
