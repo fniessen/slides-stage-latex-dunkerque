@@ -44,7 +44,7 @@
 # #+BEAMER_HEADER: \setbeamercovered{highly dynamic}
 #+BEAMER_HEADER: \beamertemplatenavigationsymbolsempty
 
-#+INCLUDE: "listings.org"
+#+INCLUDE: "style/listings.org"
 
 #+LATEX_HEADER: \definecolor{mylinkcolor}{HTML}{006DAF}
 #+LATEX_HEADER: \hypersetup{colorlinks=true, linkcolor=mylinkcolor, urlcolor=mylinkcolor}
