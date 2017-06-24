@@ -1,0 +1,25 @@
+* slides-stage-latex-dunkerque
+
+Latest version of the slides I present at the famous "Stage LaTeX de Dunkerque"
+
+** Emacs + AUCTeX
+
+Emacs est sans doute le meilleur éditeur pour écrire et modi?er tout type de
+texte ou de code source. Il dispose, en particulier, du mode AUCTeX pour éditer
+du LaTeX. C'est qui lui que nous découvrirons pendant le cours, ainsi que
+d'autres extensions dignes d'intérêt (par exemple : Preview-LaTeX, RefTeX pour
+la gestion des labels, citations et entrées d'index, flyspell pour la correction
+orthographique, outline-minor-mode pour plier et déplier des sections de texte).
+
+** Org mode 8
+
+La syntaxe LaTeX est parfois verbeuse, par exemple pour écrire des tableaux. Org
+mode o?re une solution à ce problème en permettant d'écrire ses documents
+quasiment aussi simplement que d'écrire un email (avec une syntaxe très allégée)
+et en générant le ?chier .tex correspondant (qu'on peut alors aisément compiler
+pour obtenir un PDF). De plus, Org mode o?re des facilités d'édition incroyables
+autorisant l'ajout, la suppression et l'inversion de lignes ou colonnes dans un
+tableau sur simple pression de touches, mais aussi l'ajout de formules (avec
+résultat des calculs mis à jour) comme dans un tableur !  C'est que nous
+proposons de vous montrer lors de notre exposé, pendant lequel nous réaliserons
+également une présentation Org Beamer en direct.
