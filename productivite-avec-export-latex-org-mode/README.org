@@ -1,0 +1,1774 @@
+#+TITLE:     Org-mode LateX export
+#+AUTHOR:    Fabrice Niessen
+#+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
+#+DESCRIPTION: Improve your writing productivity with Org mode
+#+KEYWORDS:  org mode, latex, export, babel
+#+LANGUAGE:  fr
+#+OPTIONS:   H:2 ^:{} toc:nil
+
+#+LaTeX_CLASS_OPTIONS: [presentation,t]
+#+BEAMER_THEME: white
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+#+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.0 :ETC
+
+#+SETUPFILE: "~/.dotfiles/org/theme-bigblow.setup"
+
+#+PROPERTY: header-args :noweb yes
+
+#+INCLUDE: "preamble.org"
+#+INCLUDE: "style/listings.org"
+#+LaTeX_HEADER: \lstset{breaklines=true}
+
+#+LaTeX_HEADER: \usepackage{menukeys}
+#+LaTeX_HEADER: \let\ORIkeys\keys
+#+LaTeX_HEADER: \renewcommand{\keys}[1]{\ORIkeys{\texttt{#1}}}
+#+LaTeX_HEADER: \newcommand{\repeatedkeys}[1]{\keys{\textcolor{gray}{#1}}}
+
+* README                                                              :noexport:
+
+How to compile this document (with Org 9)?
+
+- Execute
+
+  #+begin_src emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((R          . t)
+     (emacs-lisp . t)
+     (latex      . t)                   ; shouldn't you use #+begin/end_latex blocks instead?
+     (org        . t)
+     (shell      . t)))
+
+  (require 'ox-beamer)
+  #+end_src
+
+- Call ~C-c C-e l P~ (for Beamer)
+
+* Tasks                                                               :noexport:
+
+** TODO Talk about Org-lint!!
+
+** TODO Fixer le problème de l'accent dans graphique R (Février)
+
+** TODO Re: Slides about LaTeX export (from Denis Bitouzé)                :mail:
+   [2013-06-15 Sat 10:34]
+
+#+begin_verse
+Je n'étais (malheureusement) pas présent à ton atelier donc peut-être en as-tu
+parlé, mais je reste néanmoins un peu sur ma faim en ce qui concerne les
+facilités d'édition pour les opérations courantes : les « Assistance
+à l'édition » ne disent pas comment faire en pratique.
+
+Alors que le PDF de GitHub est nickel, le diaporama en ligne :
+
+  http://fr.slideshare.net/fniessen/org-modelatexexport
+
+présente quelques imperfections vu depuis ma machine (les « L » de « TABLE »,
+les maths, la ligature « ff » de « buffer »)
+#+end_verse
+
+From [[gnus:nnimap%2Bmc:INBOX.friends#20130615103427.08000972@drums.chezmoi.fr][Email from Denis Bitouzé: Re: Slides about LaTeX export]]
+
+** TODO Utiliser Biolinum ou Menukeys pour le dessin autour des touches à taper
+
+* Tools                                                               :noexport:
+
+# See http://gte.univ-littoral.fr/members/dbitouze/pub/latex/diapositives-cours-d/conference-n-1/downloadFile/file/en-ligne1.pdf?nocache=1359715107.22
+
+#+name: fullwidthgraphic
+#+begin_src latex :var yourimage="" :results latex :exports none
+\setbeamertemplate{navigation symbols}{}
+\begin{tikzpicture}[remember picture,overlay]
+    \node[xshift=0cm,yshift=0cm] at (current page.center) {
+        \includegraphics[width=\paperwidth]{yourimage}
+    };
+\end{tikzpicture}
+#+end_src
+
+#+name: fullheightgraphic
+#+begin_src latex :var yourimage="" :results latex :exports none
+\setbeamertemplate{navigation symbols}{}
+\begin{tikzpicture}[remember picture,overlay]
+    \node[xshift=0cm,yshift=0cm] at (current page.center) {
+        \includegraphics[height=\paperheight]{yourimage}
+    };
+\end{tikzpicture}
+#+end_src
+
+#+name: framebox
+#+begin_src emacs-lisp :var data=""
+(concat "\\begin{mdframed}\n"
+        data "\n"
+        "\\end{mdframed}")
+#+end_src
+
+*************** TODO If ":exports none", then reference not found...
+
+#+name: zigzag
+#+begin_src latex :exports none
+\tikz\draw[decoration = {zigzag,segment length = 3mm, amplitude = 1mm},decorate] (0,0)--(1,0);
+#+end_src
+
+* Contexte
+
+** Contexte
+
+#+begin_quote
+Envie d'écrire vos rapports, présentations, examens, thèses et autres
+documents aussi facilement qu'un email ?  Besoin de relire (!) et d'éditer
+facilement toutes vos tables et vos listes ?  Besoin d'utiliser des fonctions de
+sommation, moyenne ou autre, comme vous le feriez dans un tableur, avec mise à
+jour dynamique des résultats ?
+
+Intéressé par l'export conditionnel de parties de vos documents ?  Intéressé par
+l'insertion de bouts de code exécutables /in situ/ (dans le document) ?  Intéressé
+par un export vers de l'HTML, en supplément ?
+#+end_quote
+
+** Agenda
+
+#+BEGIN_EXPORT latex
+\begin{center}
+  \begin{tikzpicture}[scale=0.55, transform shape]
+    \path[mindmap,concept color=black,text=white,
+    level 1 concept/.append style={level distance=130,sibling angle=90}]
+      node[concept] {Org}
+      [clockwise from=45]
+      child[concept color=green!50!black] {
+        node[concept] {Syntaxe}
+        [clockwise from=105]
+        child { node[concept] {Listes} }
+        child { node[concept] {Tables} }
+        child { node[concept] {Formules} }
+      }
+      child[concept color=blue] {
+        node[concept] {Écrire}
+        [clockwise from=75]
+        child { node[concept] {Rapports} }
+        child { node[concept] {Présentations} }
+        child { node[concept] {Examens} }
+        child { node[concept] {Thèses} }
+        child { node[concept] {Lettres} }
+      }
+      child[concept color=red] {
+        node[concept] {Org Babel}
+        [clockwise from=-105]
+        child { node[concept] {Coloration} }
+        child { node[concept] {Exécution} }
+      }
+      child[concept color=orange] {
+        node[concept] {Export}
+        [clockwise from=-135]
+        child { node[concept] {LaTeX} }
+        child { node[concept] {Beamer} }
+        child { node[concept] {HTML} }
+        child { node[concept] {ODT} }
+      };
+  \end{tikzpicture}
+\end{center}
+#+END_EXPORT
+
+** Présentation
+
+*** Unicorn                                                              :BMCOL:
+:PROPERTIES:
+:BEAMER_col: .48
+:END:
+
+#+LaTeX: \centering
+
+Org mode
+
+#+ATTR_LaTeX: :width 3cm
+[[file:images/org-mode-unicorn.png]]
+
+*** Carsten                                                              :BMCOL:
+:PROPERTIES:
+:BEAMER_col: .48
+:END:
+
+#+LaTeX: \centering
+
+créé en 2003 par \\
+Carsten Dominik
+
+#+ATTR_LaTeX: :width 2.6cm
+[[file:images/Carsten.png]]
+
+*** End of columns                                             :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+
+#+LaTeX: \pause{}
+
+# #+begin_quote
+# Back to the future for plain text. (Carsten Dominik)
+# #+end_quote
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[overlay,font={\rmfamily}]
+  \node[text width=10.5cm,fill=white,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0,xshift=0cm,yshift=-4.1cm] at (current page.center)
+  {Back to the future for plain text. (Carsten Dominik)};
+\end{tikzpicture}
+#+END_EXPORT
+
+#+LaTeX: \pause{}
+
+# #+begin_quote
+# Org-mode does outlining, note-taking, hyperlinks, spreadsheets, TODO lists,
+# project planning, GTD, HTML and LaTeX authoring, all with plain text files in
+# Emacs. (Carsten Dominik)
+# #+end_quote
+
+# XXX Pourquoi le bloc suivant n'est pas centré ?
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[overlay,font={\rmfamily}]
+  \node[text width=10.5cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0,yshift=-5.2cm] at (current page.center)
+  {Org-mode does outlining, note-taking, hyperlinks, spreadsheets, TODO lists,
+project planning, GTD, HTML and LaTeX authoring, all with plain text files in
+Emacs. (Carsten Dominik)};
+\end{tikzpicture}
+#+END_EXPORT
+
+** Définition XXX                                                     :noexport:
+:PROPERTIES:
+:BEAMER_opt: plain
+:END:
+
+# #+call: fullheightgraphic(yourimage="images/paperwork") :results latex
+
+#+results:
+#+BEGIN_EXPORT latex
+\setbeamertemplate{navigation symbols}{}
+\begin{tikzpicture}[remember picture,overlay]
+    \node[xshift=0cm,yshift=0cm] at (current page.center) {
+        \includegraphics[height=\paperheight]{images/paperwork}
+    };
+\end{tikzpicture}
+#+END_EXPORT
+
+#+BEGIN_EXPORT latex
+% \renewcommand*\sfdefault{ugq}
+\sffamily\bfseries
+\begin{tikzpicture}[remember picture,overlay,huge/.style={font=\Huge, inner sep=.3cm}]
+  \node[huge,right, align=left, rotate=5, yshift=-2.8cm, opacity=0.85, text width=4.4cm, minimum height=8.5cm, fill=white] {\color{red!80!black}Emacs +\\ Org mode\\ (n.m.) :\\ \color{black!65}Assurance\\ d'être\\ bien plus \\productiikzpicture}
+#+END_EXPORT
+
+* Problèmes avec LaTeX
+
+** Liste "à puces" en LaTeX
+
+#+name: exemple-liste-itemize
+#+begin_src org :exports none
+- Premier élément
+  - Niveau plus profond
+- Autre élément
+- Dernier élément
+#+end_src
+
+Code LaTeX
+
+# !!! This is a meta-level of execution: code is executed, and its results are
+# !!! as well eval'ed once more!
+
+#+begin_src org :results latex replace :wrap "SRC latex :exports code" :exports results
+<<exemple-liste-itemize>>
+#+end_src
+
+#+LaTeX: \pause{}
+
+Affichage
+
+# org-babel-exp-process-buffer: Wrong type argument: integer-or-marker-p, nil
+
+# #+begin_src org :results latex replace :wrap "SRC latex" :exports results :post framebox(data=*this*)
+# <<exemple-liste-itemize>>
+# #+end_src
+
+#+results:
+#+BEGIN_SRC latex
+\begin{mdframed}
+\begin{itemize}
+\item Premier élément
+\begin{itemize}
+\item Niveau plus profond
+\end{itemize}
+\item Autre élément
+\item Dernier élément
+\end{itemize}
+
+\end{mdframed}
+#+END_SRC
+
+** Liste numérotée en LaTeX
+
+#+name: exemple-liste-enumerate
+#+begin_src org :exports none
+1. Premier élément
+2. Autre élément
+   1. Niveau plus profond
+3. Dernier élément
+#+end_src
+
+Code LaTeX
+
+#+begin_src org :results latex replace :wrap "SRC latex :exports code" :exports results
+<<exemple-liste-enumerate>>
+#+end_src
+
+#+LaTeX: \pause{}
+
+Affichage
+
+# #+begin_src org :results latex replace :wrap "SRC latex" :exports results :post framebox(data=*this*)
+# <<exemple-liste-enumerate>>
+# #+end_src
+
+#+results:
+#+BEGIN_SRC latex
+\begin{mdframed}
+\begin{enumerate}
+\item Premier élément
+\item Autre élément
+\begin{enumerate}
+\item Niveau plus profond
+\end{enumerate}
+\item Dernier élément
+\end{enumerate}
+
+\end{mdframed}
+#+END_SRC
+
+** Liste de description en LaTeX
+
+#+name: exemple-liste-description
+#+begin_src org :exports none
+- Premier élément :: Description.
+- Autre élément :: Description.
+- Dernier élément :: Description.
+#+end_src
+
+Code LaTeX
+
+#+begin_src org :results latex replace :wrap "SRC latex :exports code" :exports results
+<<exemple-liste-description>>
+#+end_src
+
+#+LaTeX: \pause{}
+
+Affichage
+
+# #+begin_src org :results latex replace :wrap "SRC latex" :exports results :post framebox(data=*this*)
+# <<exemple-liste-description>>
+# #+end_src
+
+#+results:
+#+BEGIN_SRC latex
+\begin{mdframed}
+\begin{description}
+\item[{Premier élément}] Description.
+\item[{Autre élément}] Description.
+\item[{Dernier élément}] Description.
+\end{description}
+
+\end{mdframed}
+#+END_SRC
+
+** Tableau en LaTeX
+
+#+name: exemple-tableau
+#+begin_src org :exports none
+,#+CAPTION: Tableau avec alignement
+,#+ATTR_LaTeX: :align lr
+,#+name: achats-par-mois
+| Mois    | Montant |
+|---------+---------|
+| Janvier |    1565 |
+| Fevrier |    1164 |
+| Mars    |     740 |
+| Avril   |    2273 |
+| Mai     |    1688 |
+| Juin    |    2942 |
+#+end_src
+
+*** Code LaTeX                                                           :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+Code LaTeX
+
+#+begin_src org :results latex replace :wrap "SRC latex :exports code" :exports results
+<<exemple-tableau>>
+#+end_src
+
+#+LaTeX: \pause{}
+
+*** Affichage                                                            :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+Affichage
+
+# #+begin_src org :results latex replace :wrap "SRC latex" :exports results :post framebox(data=*this*)
+# <<exemple-tableau>>
+# #+end_src
+
+#+results:
+#+BEGIN_SRC latex
+\begin{mdframed}
+\begin{table}[!htbp]
+\caption{\label{achats-par-mois}Tableau avec alignement}
+\centering
+\begin{tabular}{lr}
+Mois & Montant\\
+\hline
+Janvier & 1565\\
+Fevrier & 1164\\
+Mars & 740\\
+Avril & 2273\\
+Mai & 1688\\
+Juin & 2942\\
+\end{tabular}
+\end{table}
+
+\end{mdframed}
+#+END_SRC
+
+** Tableau en LaTeX
+
+- Pour /Open Office Calc/
+  1. Installer la macro /Calc2LaTeX/
+  2. Utiliser cette macro
+     1. Construire le tableau avec le tableur
+     2. Sélectionner la partie intéressante du tableau
+     3. Lancer la macro de conversion en code LaTeX
+     4. Enregistrer le résultat dans un fichier =<fichier>.tex=
+     5. Insérer =\input{<fichier>}= là où le tableau doit apparaître
+
+- Pour /Excel/ \\
+  Installer et utiliser la macro /Excel2LaTeX/
+
+#+LaTeX: \pause{}
+
+#+BEGIN_EXPORT latex
+\begin{center}
+  \begin{tikzpicture}[font={\rmfamily}]
+    \node[text width=5.7cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=-5]
+    {Fichier LaTeX et fichier du tableur à garder synchronisés... \\ Manuellement... \\ À chaque édition...};
+  \end{tikzpicture}
+\end{center}
+#+END_EXPORT
+
+** Mais on a toujours fait comme cela...
+:PROPERTIES:
+:BEAMER_opt: plain
+:END:
+
+# #+call: fullwidthgraphic(yourimage="images/stop") :results latex
+
+#+results:
+#+BEGIN_EXPORT latex
+\setbeamertemplate{navigation symbols}{}
+\begin{tikzpicture}[remember picture,overlay]
+    \node[xshift=0cm,yshift=0cm] at (current page.center) {
+        \includegraphics[width=\paperwidth]{images/stop}
+    };
+\end{tikzpicture}
+#+END_EXPORT
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[remember picture,overlay,font={\Large\bfseries\color{white}}]
+  \node[xshift=3.2cm,yshift=0cm,align=center] at (current page.center)
+    {Il est \\ temps de changer \\ d'outils !};
+\end{tikzpicture}
+#+END_EXPORT
+
+* Solutions avec Org
+
+# https://www.dokuwiki.org/fr:syntax
+
+** Org à la rescousse
+:PROPERTIES:
+:BEAMER_opt: plain
+:END:
+
+# #+call: fullwidthgraphic(yourimage="images/green-stop-light") :results latex
+
+#+results:
+#+BEGIN_EXPORT latex
+\setbeamertemplate{navigation symbols}{}
+\begin{tikzpicture}[remember picture,overlay]
+    \node[xshift=0cm,yshift=0cm] at (current page.center) {
+        \includegraphics[width=\paperwidth]{images/green-stop-light}
+    };
+\end{tikzpicture}
+#+END_EXPORT
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[remember picture,overlay]
+  \node[xshift=2cm,yshift=-0.8cm] at (current page.center)
+    {\Large\bfseries{}
+    \color{myblack}En route avec \color{mywhite}Org mode};
+\end{tikzpicture}
+#+END_EXPORT
+
+** Mise en forme
+
+Balisage virtuellement inexistant
+
+*** Syntaxe Org                                                          :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+#+name: marqueurs
+#+begin_src org
+Normal
+
+*Gras*
+
+/Italique/
+
+_Souligné_
+
+=Code=
+
+~Verbatim~
+#+end_src
+
+*** Résultat                                                             :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+# #+begin_src org :results latex replace :wrap "SRC latex" :exports results :post framebox(data=*this*)
+# <<marqueurs>>
+# #+end_src
+
+#+results:
+#+BEGIN_SRC latex
+\begin{mdframed}
+Normal
+
+\textbf{Gras}
+
+\emph{Italique}
+
+\uline{Souligné}
+
+\texttt{Code}
+
+\verb~Verbatim~
+
+\end{mdframed}
+#+END_SRC
+
+#+LaTeX: \pause{}
+
+*** End of columns                                             :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+
+Marqueurs cachés dans le /buffer/ Org avec
+
+#+begin_src latex :exports code
+(setq org-hide-emphasis-markers t)      ; dans votre .emacs
+#+end_src
+
+** Caractères spéciaux                                                :noexport:
+
+*** Syntaxe Org                                                          :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+#+name: caracteres-speciaux
+#+begin_src org
+# Commentaire (en colonne 0 + espace)
+
+x^{exposant}
+
+y_{indice}
+
+Tiret - court
+
+Tiret -- moyen
+
+Tiret --- long
+#+end_src
+
+*** Résultat                                                             :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+# #+begin_src org :results latex replace :wrap "SRC latex" :exports results :post framebox(data=*this*)
+# <<caracteres-speciaux>>
+# #+end_src
+
+#+results:
+#+BEGIN_SRC latex
+\begin{mdframed}
+
+x\(^{\text{exposant}}\)
+
+y\(_{\text{indice}}\)
+
+Tiret - court
+
+Tiret -- moyen
+
+Tiret --- long
+
+\end{mdframed}
+#+END_SRC
+
+** Liste "à puces" en Org mode
+
+Affichage
+
+# #+begin_src org :results latex replace :wrap "SRC latex" :exports results :post framebox(data=*this*)
+# <<exemple-liste-itemize>>
+# #+end_src
+
+#+results:
+#+BEGIN_SRC latex
+\begin{mdframed}
+\begin{itemize}
+\item Premier élément
+\begin{itemize}
+\item Niveau plus profond
+\end{itemize}
+\item Autre élément
+\item Dernier élément
+\end{itemize}
+
+\end{mdframed}
+#+END_SRC
+
+#+LaTeX: \pause{}
+
+Syntaxe Org
+
+#+begin_src org
+<<exemple-liste-itemize>>
+#+end_src
+
+#+LaTeX: \pause{}
+
+Assistance à l'édition : espaces devant les tirets pour chaque /item/ des sous-listes
+
+** Liste numérotée en Org mode
+
+Affichage
+
+# #+begin_src org :results latex replace :wrap "SRC latex" :exports results :post framebox(data=*this*)
+# <<exemple-liste-enumerate>>
+# #+end_src
+
+#+results:
+#+BEGIN_SRC latex
+\begin{mdframed}
+\begin{enumerate}
+\item Premier élément
+\item Autre élément
+\begin{enumerate}
+\item Niveau plus profond
+\end{enumerate}
+\item Dernier élément
+\end{enumerate}
+
+\end{mdframed}
+#+END_SRC
+
+#+LaTeX: \pause{}
+
+Syntaxe Org
+
+#+begin_src org
+<<exemple-liste-enumerate>>
+#+end_src
+
+#+LaTeX: \pause{}
+
+Assistance à l'édition : numéros pour chaque /item/ des (sous-) listes numérotées
+
+** Liste de description en Org mode
+
+Affichage
+
+# #+begin_src org :results latex replace :wrap "SRC latex" :exports results :post framebox(data=*this*)
+# <<exemple-liste-description>>
+# #+end_src
+
+#+results:
+#+BEGIN_SRC latex
+\begin{mdframed}
+\begin{description}
+\item[{Premier élément}] Description.
+\item[{Autre élément}] Description.
+\item[{Dernier élément}] Description.
+\end{description}
+
+\end{mdframed}
+#+END_SRC
+
+#+LaTeX: \pause{}
+
+Syntaxe Org
+
+#+begin_src org
+<<exemple-liste-description>>
+#+end_src
+
+** Tableau en Org mode
+
+*** Affichage                                                            :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.42
+:END:
+
+Affichage
+
+# #+begin_src org :results latex replace :wrap "SRC latex" :exports results :post framebox(data=*this*)
+# <<exemple-tableau>>
+# #+end_src
+
+#+results:
+#+BEGIN_SRC latex
+\begin{mdframed}
+\begin{table}[!htbp]
+\caption{\label{achats-par-mois}Tableau avec alignement}
+\centering
+\begin{tabular}{lr}
+Mois & Montant\\
+\hline
+Janvier & 1565\\
+Fevrier & 1164\\
+Mars & 740\\
+Avril & 2273\\
+Mai & 1688\\
+Juin & 2942\\
+\end{tabular}
+\end{table}
+
+\end{mdframed}
+#+END_SRC
+
+#+LaTeX: \pause{}
+
+*** Syntaxe Org                                                          :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.55
+:END:
+
+Syntaxe Org
+
+#+begin_src org
+<<exemple-tableau>>
+#+end_src
+
+où les tirets =  filet horizontal
+
+(Utiliser ~:align |l|r|~ \\
+pour les filets verticaux)
+
+#+LaTeX: \pause{}
+
+*** End of columns                                             :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+
+*Limitation* --- \\
+Fusion de cellules (actuellement) impossible dans des tables Org
+
+** Création de tableaux
+
+- À partir de rien
+  + Insérer 2 barres verticales
+  + Appuyer sur \keys{TAB}
+  + Pour insérer une nouvelle ligne, appuyer sur \keys{M-S-down}
+  + Pour insérer une nouvelle colonne, appuyer sur \keys{M-S-right}
+
+- À partir de données formatées en colonne, appuyer sur \keys{C-c |}
+  + Données séparées par \keys{TAB}
+  + Données séparées par une virgule (CSV)
+  + Données séparées par un ou plusieurs espaces consécutifs
+
+# #+BEGIN_EXPORT latex
+# \begin{tikzpicture}[remember picture,overlay,font={\rmfamily}]
+#   \node[text width=1.8cm,draw=myquoteborder,line width=1pt,inner sep=6pt,
+#         rotate=5,xshift=-3.2cm,yshift=-2cm] at (current page.center)
+#   {S = Shift};
+#   \node[text width=2.5cm,draw=myquoteborder,line width=1pt,inner sep=6pt,fill=white,
+#         rotate=0,xshift=-1.2cm,yshift=-1.7cm] at (current page.center)
+#   {C = Control};
+#   \node[text width=2.2cm,draw=myquoteborder,line width=1pt,inner sep=6pt,fill=white,
+#         rotate=-5,xshift=1.2cm,yshift=-2.5cm] at (current page.center)
+#   {M \keys{ Meta (touche "Alt")};
+# \end{tikzpicture}
+# #+END_EXPORT
+
+** Édition de tableaux
+
+- Pour supprimer
+  + \keys{M-S-up} --- la ligne courante
+  + \keys{M-S-left} --- la colonne courante
+- Pour déplacer la ligne courante
+  + \keys{M-up} --- vers le haut
+  + \keys{M-down} --- vers le bas
+- Pour déplacer la colonne courante
+  + \keys{M-left} --- vers la gauche
+  + \keys{M-right} --- vers la droite
+- Numériques alignés à droite par défaut
+
+** Édition de tableaux
+
+- \keys{S-RET} --- Copier le contenu de la cellule supérieure ou courante (en
+  fonction du contexte)
+- \keys{C-c C-c} --- Réaligner la table
+- \keys{C-c -} --- Insérer une ligne horizontale
+# - \keys{C-c ^} --- Trier la table sur la colonne courante
+#   + \keys{a} --- Ordre alphabétique
+#   + \keys{A} --- Ordre alphabétique inverse
+#   + \keys{n} --- Ordre numérique
+#   + \keys{N} --- Ordre numérique inverse
+
+** Tableur
+
+- Référence absolue (format interne) =@L$C=
+
+  #+begin_src org
+     $1   $2
+@1 |    |    |
+@2 |    |    |
+  #+end_src
+
+- Référence relative =@+L$-C=
+  + Omettre la ligne ou colonne, si ligne ou colonne *courante*
+
+- Référence symbolique
+  + \keys{@<} ou =$<= --- Première ligne ou colonne
+  + \keys{@<<} ou =$<<= --- Deuxième ligne ou colonne
+  + ...
+  + \keys{@>>} ou =$>>= --- Avant-dernière ligne ou colonne
+  + \keys{@>} ou =$>= --- Dernière ligne ou colonne
+
+** Références
+
+- Ligne horizontale
+  + \keys{@I} --- Première /hline/
+  + \keys{@II} --- Deuxième /hline/
+  + ...
+  + \keys{@-I} --- Première /hline/ au-dessus de la ligne courante
+  + \keys{@+I} --- Première /hline/ en-dessous de la ligne courante
+
+- /Range/ =@L$C..@L$C=
+
+- Référence externe \keys{remote(nom-de-table,référence)}
+
+** Formules
+
+*** Syntaxe Org                                                          :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.55
+:END:
+
+Syntaxe Org
+
+#+name: exemple-tableur
+#+begin_src org
+,#+CAPTION: Tableau avec formule
+,#+ATTR_LaTeX: :align lr
+,#+name: achats-par-mois
+| Mois    | Montant |
+|---------+---------|
+| Janvier |    1565 |
+| Fevrier |    1164 |
+| Mars    |     740 |
+| Avril   |    2273 |
+| Mai     |    1688 |
+| Juin    |    2942 |
+|---------+---------|
+| Total   |   10372 |
+,#+TBLFM: @>$2=vsum(@-I..@-II)
+#+end_src
+
+*** Affichage                                                            :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.42
+:END:
+
+Affichage
+
+# #+begin_src org :results latex replace :wrap "SRC latex" :exports results :post framebox(data=*this*)
+# <<exemple-tableur>>
+# #+end_src
+
+#+results:
+#+BEGIN_SRC latex
+\begin{mdframed}
+\begin{table}[!htbp]
+\caption{\label{achats-par-mois}Tableau avec formule}
+\centering
+\begin{tabular}{lr}
+Mois & Montant\\
+\hline
+Janvier & 1565\\
+Fevrier & 1164\\
+Mars & 740\\
+Avril & 2273\\
+Mai & 1688\\
+Juin & 2942\\
+\hline
+Total & 10372\\
+\end{tabular}
+\end{table}
+
+\end{mdframed}
+#+END_SRC
+
+** Formules
+
+- Insérer une formule
+  + \keys{C-c =} --- Insérer une formule *colonne* =$C==
+  + \keys{C-u C-c =} --- Insérer une formule *cellule* =@L$C==
+  + À la main --- Insérer une formule *range de cellules en ligne* =@L$C..@L$C==
+
+- Recalculer
+  + \keys{C-c *} --- Ré-appliquer les formules... pour la *ligne courante*
+  + \keys{C-u C-c *} --- ... pour toutes les lignes de la table
+  + \keys{C-u C-u C-c *} --- ... jusqu'à ce que la *table* soit *stable*
+
+** Fonctions
+
+- Voir manuel de GNU Emacs Calc
+
+- Math
+  | \keys{vsum(range)}  | Somme         |
+  | \keys{vprod(range)} | Produit       |
+  | \keys{exp(x)}       | Exponentielle |
+  | \keys{sin(x)}       | Sinus         |
+  | \keys{cos(x)}       | Cosinus       |
+  | \keys{tan(x)}       | Tangente      |
+
+** Fonctions
+
+- Statistique
+  | \keys{vmean(range)}   | Moyenne arithmétique            |
+  | \keys{vmedian(range)} | Médiane                         |
+  | \keys{vmin(range)}    | Minimum                         |
+  | \keys{vmax(range)}    | Maximum                         |
+  | \keys{vcount(range)}  | Nombre de valeurs               |
+  | \keys{vgmean(range)}  | Moyenne géométrique             |
+  | \keys{vsdev(range)}   | Déviation standard "sample"     |
+  | \keys{vpdev(range)}   | Déviation standard "population" |
+  | \keys{vvar(range)}    | Variance                        |
+
+- Logique
+  | \keys{if(test,val-true,val-false)} | Condition |
+
+- Texte
+  | \keys{string("")} | /String/ vide |
+
+# - subvec
+# - find
+# 
+# I just found the Calc function apply() which leads to this
+# simplification:
+# 
+# | Date             |    Sys |    Dia |    Pul |  Sugar |
+# |------------------+--------+--------+--------+--------|
+# | [2014-04-27 Sun] |    125 |     88 |     78 |     92 |
+# | [2014-04-28 Mon] |    102 |     88 |     86 |     92 |
+# |------------------+--------+--------+--------+--------|
+# | vmean            |  113.50 |  88.00 |  82.00 |  92.00 |
+# | vcount           |  2.00  |  2.00  |  2.00  |  2.00  |
+# | vmax             |  125.00 |  88.00 |  86.00 |  92.00 |
+# | vmedian          |  113.50 |  88.00 |  82.00 |  92.00 |
+# | vmin             |  102.00 |  88.00 |  78.00 |  92.00 |
+# | vsdev            |  16.26 |  0.00  |  5.66  |  0.00  |
+# | vsum             |  227.00 |  176.00 |  164.00 |  184.00 |
+# |------------------+--------+--------+--------+--------|
+# #+TBLFM: @>>>>>>>$2..@>$> = apply($1, @I..@II); %.2f
+
+** Format
+
+| =%.nf=   | /Float/ avec /n/ décimales pour =printf= |
+| \keys{t} | Durée (sous forme de fraction)           |
+| \keys{T} | Durée (sous forme =HH:MM:SS=)            |
+
+** Assistance à l'édition de la ligne =#+TBLFM=
+
+- =C-c }= --- Inverser l'affichage des références
+- \keys{C-u C-u C-c =} --- Éditer une formule dans le tableau
+  + \keys{C-c ?} --- Mettre en évidence les cellules référencées au point
+- \keys{C-c '} --- Éditer les formules dans un /buffer/ spécial
+  + \keys{S-up/down/left/right} --- Modifier la référence courante
+- =C-c {= --- Activer le débogueur (montrer l'historique de substitution pour les
+  formules)
+
+** Tableau Org dans source LaTeX
+
+- Utiliser un environnement =comment=
+
+  #+begin_src latex :exports code
+% BEGIN RECEIVE ORGTBL montantdesachats
+% END RECEIVE ORGTBL montantdesachats
+\begin{comment}
+#+ORGTBL: SEND montantdesachats orgtbl-to-latex
+| Mois    | HTVA | TVAC |
+|---------+------+------|
+| Janvier | 1565 | 1887 |
+| Février | 1164 | 1404 |
+| Mars    |  740 |  892 |
+|---------+------+------|
+| Total   | 3469 | 4183 |
+#+TBLFM: $3=$2*1.206;%.0f::@>$2..@>$3=vsum(@2..@4)
+% $ (optional extra dollar to keep font-lock happy)
+\end{comment}
+  #+end_src
+
+- Appuyer sur \keys{C-c C-c} pour exporter le tableau en LaTeX
+
+** Code en R
+
+*Générer un diagramme en bâtons*, où teinte = taille relative
+
+#+name: exemple-code-R
+#+begin_src org :exports none
+,#+name: exemple-R-plot-function
+,#+headers: :var data=achats-par-mois
+,#+headers: :exports results
+,#+begin_src R :results graphics :file images/Rplots.png
+rel.hts <- (data$Montant / max(data$Montant)) / 2
+grays <- gray(1 - rel.hts)
+
+barplot(data$Montant,
+        col = grays,
+        main = "Achats par mois",
+        names.arg = data$Mois,
+        ylab = "Montant (EUR)")
+,#+end_src
+#+end_src
+
+Syntaxe Org
+
+#+begin_src org
+<<exemple-code-R>>
+#+end_src
+
+** Graphique généré en R
+
+*** Entrée                                                               :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.36
+:END:
+
+#+CAPTION: Achats par mois
+#+name: achats-par-mois
+| Mois    | Montant |
+|---------+---------|
+| Janvier |    1565 |
+| Fevrier |    1164 |
+| Mars    |     740 |
+| Avril   |    2273 |
+| Mai     |    1688 |
+| Juin    |    2942 |
+
+# #+LaTeX: \onslide<2>{\todo[inline,color=yellow]{Données source, code et résultat dans le même document Org}}
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[remember picture,overlay,font={\rmfamily}]
+  \node<4->[text width=4cm,draw=myquoteborder,line width=1pt,inner sep=6pt,
+            xshift=-3.7cm,yshift=-3.2cm,rotate=5] at (current page.center)
+  {Données source, code et résultat dans le même document Org};
+\end{tikzpicture}
+#+END_EXPORT
+
+#+LaTeX: \pause{}
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[remember picture,overlay]
+  \tikzset{
+      myarrow/.style={->, >=latex', shorten >=1pt},
+  }
+  % This is drawn in the foreground
+  \begin{pgfonlayer}{foreground}
+    \node[circle,fill=yellow,xshift=-2.1cm,yshift=3cm] (c) at (current page.center) {Code R};
+    \draw[thick] (c.west) -- ++(-.7,0) -- ++(0,-.7);
+    \draw<3->[thick,myarrow] (c.east) -- ++(.7,0) -- ++(0,-.7);
+  \end{pgfonlayer}
+\end{tikzpicture}
+#+END_EXPORT
+
+#+LaTeX: \pause{}
+
+*** Sortie                                                               :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.60
+:END:
+
+#+name: exemple-R-plot-function
+#+header: :var data=achats-par-mois
+#+header: :exports results
+#+begin_src R :results graphics :file images/Rplots.png
+rel.hts <- (data$Montant / max(data$Montant)) / 2
+grays <- gray(1 - rel.hts)
+
+barplot(data$Montant,
+        col = grays,
+        main = "Achats par mois",
+        names.arg = data$Mois,
+        ylab = "Montant (EUR)")
+#+end_src
+
+#+ATTR_LaTeX: :height 7.5cm
+#+results: exemple-R-plot-function
+[[file:images/Rplots.png]]
+
+#+LaTeX: \pause{}
+
+** Graphique généré en PGFPlots
+
+*** Entrée                                                               :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.36
+:END:
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[font={\rmfamily}]
+  \node[text width=4cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0]
+  {Même table source};
+\end{tikzpicture}
+#+END_EXPORT
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[font={\rmfamily}]
+  \node<2->[text width=4cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0]
+  {Autre code};
+\end{tikzpicture}
+#+END_EXPORT
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[font={\rmfamily}]
+  \node<3->[text width=4cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0]
+  {Nouveau résultat};
+\end{tikzpicture}
+#+END_EXPORT
+
+*** Sortie                                                               :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.60
+:END:
+
+#+begin_src emacs-lisp :results drawer :var data=achats-par-mois :exports none
+data
+#+end_src
+
+#+name: exemple-PGF-plot-function
+#+header: :var x1=achats-par-mois[2,0] :var x2=achats-par-mois[3,0]
+#+header: :var x3=achats-par-mois[4,0] :var x4=achats-par-mois[5,0]
+#+header: :var x5=achats-par-mois[6,0] :var x6=achats-par-mois[7,0]
+#+header: :var y1=achats-par-mois[2,1] :var y2=achats-par-mois[3,1]
+#+header: :var y3=achats-par-mois[4,1] :var y4=achats-par-mois[5,1]
+#+header: :var y5=achats-par-mois[6,1] :var y6=achats-par-mois[7,1]
+#+begin_src latex
+\pgfplotsset{width=7cm}
+\begin{onlyenv}<1-3>
+  \begin{tikzpicture}
+   \begin{axis}[ymin=0,title={Achats par mois}, ymin=0, ylabel={Montant (EUR)}, ybar,
+                symbolic x coords={x1,x2,x3,x4,x5,x6},
+                x tick label style={rotate=45, anchor=north east, inner sep=0mm}]
+     \addplot+[
+     scatter,
+     only marks,
+     colormap={test}{
+       color=(blue!10); color=(blue!70)
+     },
+     scatter/use mapped color={draw=blue,fill=mapped color},
+     scatter/@pre marker code/.append code={
+         \pgfkeys{/pgf/fpu=true,/pgf/fpu/output format=fixed}
+         \pgfmathsetmacro\negheight{-\pgfplotspointmeta}
+         \fill [draw=blue] (-10.5pt,10.5pt) rectangle
+         ([xshift=10.5pt]axis direction cs:x1,\negheight);
+         \pgfplotsset{mark=none}
+       },
+     ]
+      plot coordinates {
+        (x1,y1)
+        (x2,y2)
+        (x3,y3)
+        (x4,y4)
+        (x5,y5)
+        (x6,y6)
+      };
+    \end{axis}
+  \end{tikzpicture}
+\end{onlyenv}
+#+end_src
+
+#+results: exemple-PGF-plot-function
+#+BEGIN_EXPORT latex
+\pgfplotsset{width=7cm}
+\begin{onlyenv}<1-3>
+  \begin{tikzpicture}
+   \begin{axis}[ymin=0,title={Achats par mois}, ymin=0, ylabel={Montant (EUR)}, ybar,
+                symbolic x coords={Janvier,Fevrier,Mars,Avril,Mai,Juin},
+                x tick label style={rotate=45, anchor=north east, inner sep=0mm}]
+     \addplot+[
+     scatter,
+     only marks,
+     colormap={test}{
+       color=(blue!10); color=(blue!70)
+     },
+     scatter/use mapped color={draw=blue,fill=mapped color},
+     scatter/@pre marker code/.append code={
+         \pgfkeys{/pgf/fpu=true,/pgf/fpu/output format=fixed}
+         \pgfmathsetmacro\negheight{-\pgfplotspointmeta}
+         \fill [draw=blue] (-10.5pt,10.5pt) rectangle
+         ([xshift=10.5pt]axis direction cs:Janvier,\negheight);
+         \pgfplotsset{mark=none}
+       },
+     ]
+      plot coordinates {
+        (Janvier,1565)
+        (Fevrier,1164)
+        (Mars,740)
+        (Avril,2273)
+        (Mai,1688)
+        (Juin,2942)
+      };
+    \end{axis}
+  \end{tikzpicture}
+\end{onlyenv}
+#+END_EXPORT
+
+** Code SQL
+
+#+begin_src org
+#+PROPERTY:  header-args :eval never :engine msosql :cmdline -S 192.168.31.46 -U user -P secret -d ARCHIBUS -n -w 700 :results value :exports both :noweb yes
+#+end_src
+
+#+begin_src sql
+SELECT ctry_id, city_id
+FROM bl
+ORDER BY ctry_id
+#+end_src
+
+| ctry_id | city_id   |
+|---------+-----------|
+| AT      | Vienna    |
+| BE      | Brussels  |
+| DE      | Berlin    |
+| DE      | Munich    |
+| NL      | The Hague |
+
+** Autres environnements
+
+Blocs spéciaux
+
+#+begin_src org
+,#+BEGIN_EXPORT latex
+,#+END_EXPORT
+#+end_src
+
+#+begin_src org
+,#+begin_note
+,#+end_note
+#+end_src
+
+** Sectionnement
+
+Une étoile par niveau de profondeur
+
+  #+begin_src org :exports code
+  ,* Heading de niveau 1
+  ,** Heading de niveau 2
+  ,*** Heading de niveau 3
+  ,**** Heading de niveau 4
+  ...
+  #+end_src
+
+Insérer un nouvel /heading/ avec \keys{M-RET}
+
+** Édition de la structure
+
+- *Section*
+  + \keys{M-left} --- Promouvoir la section
+  + \keys{M-right} --- "Démouvoir" la section
+
+- *Sous-arbre*
+  + \keys{M(-S)-up} --- Déplacer le sous-arbre vers le haut
+  + \keys{M(-S)-down} --- Déplacer le sous-arbre vers le bas
+  + \keys{M-S-left} --- Promouvoir le sous-arbre
+  + \keys{M-S-right} --- "Démouvoir" le sous-arbre
+
+** Visibilité
+
+#+begin_src org :exports code
+,* Introduction...
+,* Expériences...
+,* Résultats...
+,* Conclusions...
+#+end_src
+
+- \keys{S-TAB} --- Cycler, dans tout le *fichier*, entre 3 états
+  1. Afficher les niveaux 1 uniquement
+  2. Afficher tous les niveaux
+  3. Afficher tout
+
+- \keys{TAB} --- Cycler, dans un *sous-arbre*, entre 3 états
+  1. Afficher le niveau courant uniquement
+  2. Afficher les niveaux enfants directs
+  3. Afficher tout
+
+** Écrire un rapport
+
+#+begin_src org
+,#+TITLE:     Productivité avec l'export LaTeX d'Org mode
+,#+AUTHOR:    Fabrice Niessen
+,#+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
+,#+DESCRIPTION: Subject
+,#+KEYWORDS:  org mode, export, latex
+,#+LANGUAGE:  fr
+,#+OPTIONS:   H:2
+#+end_src
+
+- Insérer un /template/ avec les options (par défaut) d'export via \keys{C-c C-e #}
+
+- /Smart quotes/ : guillemets à la française si
+  + /Babel/ est chargé
+  + Langue définie = =fr=
+
+- Mettre l'option \keys{H:2}
+  + (Sous-)sections numérotées jusqu'au niveau 2
+  + Niveaux suivants non-numérotés
+
+- À vous d'écrire le reste...
+
+** Générer un index
+
+- Écrire des entrées d'index
+
+  #+begin_src org
+#+index: Org-mode
+#+index: Definitions!Org-mode
+  #+end_src
+
+- Placer l'index à l'endroit désiré
+
+- Produire l'index en mettant à jour =org-latex-pdf-process=
+
+  #+begin_src org :tangle no
+#+BIND: org-latex-pdf-process ("pdflatex %b" "bibtex %b" "pdflatex %b" "pdflatex %b")
+  #+end_src
+
+** TODO Compiler vers XeLaTeX                                         :noexport:
+
+XXX
+
+** Écrire une présentation
+
+- Charger =ox-beamer=
+
+- Insérer un /template/ d'options pour l'export avec \\
+  =M-x org-beamer-insert-options-template=
+
+  #+begin_src org
+,#+LaTeX_CLASS: beamer
+,#+LaTeX_CLASS_OPTIONS: [presentation]
+,#+BEAMER_THEME: mc
+,#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+,#+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.0 :ETC
+  #+end_src
+
+- Utiliser le mode mineur =org-beamer-mode= pour ajouter certaines propriétés
+
+- Mettre l'option \keys{H:2}
+  + Sections en niveau 1
+  + /Frames/ en niveau 2
+
+** Écrire un examen
+
+Export des questions avec ou sans les solutions.
+
+#+begin_src org
+,#+OPTIONS: d:(not "SOLUTION")
+
+:QUESTION:
+,#+begin_src emacs-lisp
+(+ 1 1)
+,#+end_src
+:END:
+
+:SOLUTION:
+,#+begin_src emacs-lisp
+2
+,#+end_src
+:END:
+#+end_src
+
+où ~d:t~ donnerait l'/output/ entier.
+
+D'autres solutions sont possibles (avec ~EXCLUDE_TAGS~, par exemple).
+
+** Écrire une documentation logicielle
+
+La "[[http://fr.wikipedia.org/wiki/Programmation_lettrée][programmation littéraire]]" (*literate programming*, Knuth) = écrire la
+documentation sur le code source (dans l'ordre requis par la logique) en même temps
+et /en un même lieu/ que le code
+
+#+LaTeX: \pause{}
+
+- Tangle ::
+     Extraire les blocs de code source et générer le code "emmêlé", formaté
+     pour la machine (pour compilation ou exécution ultérieure)
+
+#+BEGIN_EXPORT latex
+\begin{center}
+  \begin{tikzpicture}[font={\rmfamily}]
+    \node[text width=8.5cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=5]
+    {Possibilité de changer l'ordre du code source, via l'argument Noweb};
+  \end{tikzpicture}
+\end{center}
+#+END_EXPORT
+
+#+LaTeX: \pause{}
+
+- Weave ::
+     Exporter le fichier Org en entier comme documentation "tissée", formatée
+     pour l'homme (généralement en LaTeX ou en HTML)
+
+** Coloration syntaxique
+
+- À l'export
+
+  #+begin_src java :eval never
+  /* affiche simplement la chaîne "Hello World!" sur la
+   * sortie standard */
+  class HelloWorldApp {
+      public static void main(String[] args) {
+          System.out.println("Hello World!");
+      }
+  }
+  #+end_src
+
+- *Dans le /buffer/ Org* lui-même (équivalent de /multiple major modes/)
+
+** Écrire une thèse
+
+Exécution des blocs de code /in situ/ (dans le document)
+
+- En usage *interactif* (\keys{C-c C-v C-e})
+- Pendant l'opération de *tangle* (\keys{C-c C-v C-t})
+- Pendant l'*export* LaTeX, HTML, ou autre (\keys{C-c C-e}) --- sans besoin de /Makefile/
+
+#+LaTeX: \pause{}
+
+Cela vous permet d'insérer, /dans votre document/, toutes les *données* (qui
+peuvent être raisonnablement incluses) et blocs de *code* que vous avez
+utilisés, suivant ainsi les principes de la *recherche reproductible*
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[remember picture,overlay,font={\rmfamily}]
+  \draw<3->node[text width=2.8cm,draw=myquoteborder,line width=1pt,inner sep=6pt,
+        rotate=5,xshift=-2.4cm,yshift=-2.2cm] at (current page.center)
+  {Référentiel des connaissances};
+  \draw<4->node[text width=2.3cm,draw=myquoteborder,line width=1pt,inner sep=6pt,
+        fill=white,rotate=-5,xshift=0.8cm,yshift=-2.7cm] at (current page.center)
+  {Compendium};
+\end{tikzpicture}
+#+END_EXPORT
+
+** Exécution de blocs de code
+
+- Appeler =org-babel-do-load-languages=
+
+  #+begin_src emacs-lisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((R . t)
+   (awk . t)
+   (calc . t)
+   (dot . t)
+   (emacs-lisp . t)
+   (gnuplot . t)
+   (latex . t)
+   (org . t)
+   (python . t)
+   (shell . t)
+   (sql . t)))
+  #+end_src
+
+  pour éviter /No org-babel-execute function for xxx!/
+
+- On peut enchaîner les blocs de code, même dans des langages différents
+
+- Usages
+  + Insérer le contenu d'une table dans une BD SQL
+
+** TODO Maths, images, tables, listings                               :noexport:
+
+: #+ATTR_LATEX:  :options scale=1.5    :width "" :placement [htb!]
+
+** Mathématiques
+
+Syntaxe LaTeX pour les équations
+
+#+begin_src latex :exports both
+\[
+\left( \int_{0}^{\infty} \frac{\sin x}{\sqrt x}\,\mathrm{d}x \right)^{2} -
+\prod_{k=1}^{\infty} \frac{4k^{2}}{4k^{2}-1} +
+\frac{\lambda}{2n}\sum_{k=1} ^{n} \theta_{k} ^{2} x^{n} = 0
+\]
+#+end_src
+
+** Écrire une lettre
+
+\keys{M-x load-library RET ox-koma-letter RET}
+
+\keys{C-c C-e k o} ou \\
+\keys{C-c C-e C-s k o} (\keys{C-s} pour sélectionner le sous-arbre courant)
+
+#+begin_src org
+,* Une lettre par section
+:PROPERTIES:
+:EXPORT_LATEX_CLASS: malettre
+:EXPORT_LCO: DefaultAddress
+:EXPORT_AUTHOR: Fabrice Niessen
+:EXPORT_DATE: 12 juin 2013
+:EXPORT_TO_ADDRESS: Denis Bitouzé \\
+:EXPORT_TO_ADDRESS: 220 avenue de l'Université \\
+:EXPORT_TO_ADDRESS: 59379 Dunkerque
+:EXPORT_OPENING: Cher Monsieur,
+:EXPORT_CLOSING: Sincèrement,
+:EXPORT_OPTIONS: backaddress:nil
+:END:
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.
+
+,**                                                        :PS:
+
+Ut enim ad minim veniam.
+#+end_src
+
+** Exporter le document Org
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[remember picture]
+  \tikzset{product/.style={rotate=10,fill=blue,opacity=.10,text opacity=1},
+           link/.style={->,>=latex,thick}}
+  \node (org) at (0,0) {\includegraphics[width=2.8cm]{images/org-mode-unicorn}};
+  \node (exporters) at (6,0) {\includegraphics[width=4cm]{images/icon-all-formats}};
+  \draw<1->[link] (org) -- (exporters);
+  \node at (2.6,0.2) {C-c C-e};
+  \draw<1->node[product] at (exporters) {Dispatcher};
+  \draw<2->node (pdf) at (3.5,-4) {\includegraphics[width=2.5cm]{images/icon-pdf}};
+  \draw<2->[link] (exporters) -- (pdf);
+%  \draw<2->node at (0,2.2) {l};
+  \draw<2->node[product] at (pdf) {LaTeX + Beamer};
+  \draw<3->node (html) at (6.3,-4) {\includegraphics[width=2.5cm]{images/icon-html}};
+  \draw<3->[link] (exporters) -- (html);
+%  \draw<3->node at (-0.5,3) {h};
+  \draw<4->node[align=left] (rest) at (9,-4) {- Texte \\ - \textbf{ODT} \\ - Man \\ - \textbf{Markdown} \\ - Texinfo \\ - etc.};
+  \draw<4->[link] (exporters) -- (rest);
+\end{tikzpicture}%
+#+END_EXPORT
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[overlay,font={\rmfamily}]
+  \draw<5->node[text width=3.5cm,fill=white,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=-10,xshift=4.5cm,yshift=0.9cm] at (current page.center)
+  {Répéter la dernière commande d'export avec C-u C-c C-e};
+\end{tikzpicture}
+#+END_EXPORT
+
+** Exporter en Beamer
+
+*** Image                                                                :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+# Autre photo : http://www.bing.com/images/search?q=shisha&FORM=HDRSC2
+
+#+ATTR_LaTeX: :width 90px
+[[file:images/narghile.jpg]]
+
+*** Texte                                                                :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+#+LaTeX: {\fontfamily{frc}\selectfont\Large%
+Ceci n'est pas une pipe
+#+LaTeX: }
+
+#+LaTeX: \pause{}
+
+*** End of columns                                             :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+
+#+LaTeX: {\centering
+
+Mais [[https://github.com/fniessen/stage-latex-dunkerque-2013/blob/master/org-mode-latex-export.org][ceci]] est une présentation Beamer \\
+composée en Org mode \\
+exportée avec \keys{C-c C-e l P}
+
+(après avoir fait \keys{M-x load-library RET ox-beamer RET})
+
+#+LaTeX: }
+
+** Exports à jour
+
+#+begin_src emacs-lisp
+  (with-eval-after-load "org"
+
+    (defun org-save-buffer-and-do-related ()
+      "Save buffer, execute/tangle code blocks, and export to HTML/PDF."
+      (interactive)
+      (let* ((orgfile (buffer-file-name))
+             (base-name (file-name-base orgfile))
+             (htmlfile (concat base-name ".html"))
+             (pdffile (concat base-name ".pdf")))
+        (save-buffer)
+        (when (derived-mode-p 'org-mode)
+          (org-babel-execute-buffer)
+          (let ((before-save-hook nil))
+            (save-buffer))
+          (org-babel-tangle)
+          (when (file-exists-p htmlfile)
+            (if (file-newer-than-file-p orgfile htmlfile)
+                (org-html-export-to-html)
+              (message "HTML is up to date with Org file")))
+          (when (file-exists-p pdffile)
+            (if (file-newer-than-file-p orgfile pdffile)
+                (if (string-match "^#\\+BEAMER_THEME: " (buffer-string))
+                    (org-beamer-export-to-pdf)
+                  (org-latex-export-to-pdf))
+              (message "PDF is up to date with Org file")))
+          (beep))))
+
+    (define-key org-mode-map
+      (kbd "<f9>") 'org-save-buffer-and-do-related))
+#+end_src
+
+** Suppléments non abordés
+
+- Statut \keys{TODO} / \keys{DONE} sur les sections
+- /Tags/ \keys{:noexport:} sur les sections
+- Agenda
+- Pointeuse du temps de travail
+- Recherche avancée (multi-fichiers)
+- etc.
+
+* Conclusion
+
+** Cliquer ici
+:PROPERTIES:
+:BEAMER_act: [<+->]
+:END:
+
+Pour en apprendre plus sur Org mode
+
+- Manuels de référence
+  + [[http://orgmode.org/orgcard.pdf][Org mode Reference Card]] (2 pages)
+  + [[http://orgmode.org/orgguide.pdf][The compact Org mode Guide]] (\pm 40 pages)
+  + [[http://orgmode.org/org.pdf][The Org Manual]] (\pm 250 pages)
+
+- [[http://orgmode.org/worg/org-faq.html][FAQ Org mode]]
+
+- Site [[http://orgmode.org/worg/][Worg]] (= "Wiki" sur Org mode)
+
+- Liste de discussion [[mailto:emacs-orgmode@gnu.org][emacs-orgmode@gnu.org]]
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[remember picture,overlay,font={\rmfamily}]
+  \draw<6->node[text width=3.5cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=-5,xshift=4.2cm,yshift=0.3cm] at (current page.center)
+  {Écrit en Org \\ Publié en HTML};
+\end{tikzpicture}
+#+END_EXPORT
+
+** Conclusion
+
+- LaTeX reste l'outil de tout premier plan pour créer des documents écrits de
+  grande qualité
+
+- Mais on gagne sur plusieurs terrains, et on l'étend dans plein de
+  directions, en l'utilisant en tant que /backend/ d'Org mode
+
+- Rédiger un document ou une présentation devient aussi simple que d'écrire un
+  /email/
+
+** Conclusion
+:PROPERTIES:
+:BEAMER_opt: plain
+:END:
+
+# #+call: fullheightgraphic(yourimage="images/homme-fort") :results latex
+
+#+results:
+#+BEGIN_EXPORT latex
+\setbeamertemplate{navigation symbols}{}
+\begin{tikzpicture}[remember picture,overlay]
+    \node[xshift=0cm,yshift=0cm] at (current page.center) {
+        \includegraphics[height=\paperheight]{images/homme-fort}
+    };
+\end{tikzpicture}
+#+END_EXPORT
+
+#+BEGIN_EXPORT latex
+\begin{tikzpicture}[remember picture,overlay,font={\large\fontsize{12}{22}\bfseries}]
+  \node[xshift=-3.3cm,yshift=3.0cm,align=left] at (current page.center)
+    {\color{mywhite}Soyez \color{myyellow}PLUS EFFICACE \\
+     \color{mywhite}et \color{myyellow}PLUS PRODUCTIF\color{mywhite} \\
+     \color{mywhite}avec Org mode !};
+  \node[xshift=-3.8cm,align=left] at (current page.center)
+    {\color{mywhite}Téléchargez \color{myyellow}Org 9 \\ \color{mywhite}dès aujourd'hui};
+  \node[xshift=-3.5cm,yshift=-1.2cm,align=left] at (current page.center)
+    {\tiny\color{myyellow}git clone git://orgmode.org/org-mode.git};
+  \node[xshift=-4.7cm,yshift=-1.5cm,align=left] at (current page.center)
+    {\tiny\color{myyellow}make autoloads};
+  \node[xshift=-2.8cm,yshift=-1.8cm,align=left] at (current page.center)
+    {\tiny\color{myyellow}(add-to-list 'load-path "<path-to-repo>/lisp/") ; <- adjust};
+  \node[xshift=5.5cm,yshift=-2.3cm,align=left] at (current page.center)
+    {\color{myyellow}Merci};
+\end{tikzpicture}
+#+END_EXPORT
+
+** Coordonnées
+
+# Page 55 de http://fr.slideshare.net/lemiorhan/fundamentals-of-web-for-non-developers?utm_source=slideshow&utm_medium=ssemail&utm_campaign=weekly_digest
+
+Fabrice Niessen \\
+(concat "fniessen" at-sign "[[http://www.pirilampo.org/][pirilampo.org]]")
+
+Consultant IT @ [[http://www.pirilampo.be/][Pirilampo SPRL]] \\
+Auteur @ [[http://www.pirilampo.org/][Pirilampo.org]]
+
+*** Gauche                                                               :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+[[https://github.com/fniessen][GitHub]] fniessen \\
+[[http://be.linkedin.com/pub/fabrice-niessen/0/a42/200][LinkedIn]] fabrice-niessen \\
+[[http://www.slideshare.net/fniessen][SlideShare]] fniessen \\
+[[https://twitter.com/f_niessen][Twitter]] f_niessen \\
+
+*** Droite                                                               :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.48
+:END:
+
+Vous avez des idées ? \\
+Contactez-moi !

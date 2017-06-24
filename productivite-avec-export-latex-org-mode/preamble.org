@@ -1,0 +1,58 @@
+#+LaTeX_HEADER: \usepackage{tikz}
+#+LaTeX_HEADER: \usetikzlibrary{decorations.pathmorphing, patterns,shapes}
+#+LaTeX_HEADER: \usetikzlibrary{arrows}
+#+LaTeX_HEADER: \usetikzlibrary{mindmap,trees}
+
+# #+LaTeX_HEADER: \pgfplotsset{compat=1.10}
+#+LaTeX_HEADER: % Define the layers to draw the diagram
+#+LaTeX_HEADER: \pgfdeclarelayer{background}
+#+LaTeX_HEADER: \pgfdeclarelayer{foreground}
+#+LaTeX_HEADER: \pgfsetlayers{background,main,foreground}
+
+#+LaTeX_HEADER: \usepackage{pgfplots}
+#+LaTeX_HEADER: % \pgfplotsset{compat=1.7}
+#+LaTeX_HEADER: \pgfplotsset{%
+#+LaTeX_HEADER:   /pgf/number format/.cd,
+#+LaTeX_HEADER:   use comma,
+#+LaTeX_HEADER:   1000 sep={\,},
+#+LaTeX_HEADER:   min exponent for 1000 sep=4
+#+LaTeX_HEADER: }
+
+#+LaTeX_HEADER: \usepackage{mdframed}
+#+LaTeX_HEADER: \mdfsetup{%
+#+LaTeX_HEADER:   linecolor=gray!40,
+#+LaTeX_HEADER:   linewidth=.7pt,
+#+LaTeX_HEADER:   innertopmargin=0.4em,
+#+LaTeX_HEADER:   innerrightmargin=0.4em,
+#+LaTeX_HEADER:   innerbottommargin=0.4em,
+#+LaTeX_HEADER:   innerleftmargin=0.4em,
+#+LaTeX_HEADER:   leftmargin=1pt,
+#+LaTeX_HEADER:   rightmargin=1pt,
+#+LaTeX_HEADER:   skipabove=4.5pt,
+#+LaTeX_HEADER: }
+
+#+LaTeX_HEADER: \definecolor{mywhite}{HTML}{E3E5E4}
+#+LaTeX_HEADER: \definecolor{myyellow}{HTML}{EEE039}
+#+LaTeX_HEADER: \definecolor{myblue}{HTML}{599CEE}
+#+LaTeX_HEADER: \definecolor{myblack}{HTML}{414141}
+#+LaTeX_HEADER: \definecolor{myquoteborder}{HTML}{0071C1}
+#+LaTeX_HEADER: \definecolor{orgmode}{HTML}{048082}
+
+#+LaTeX_HEADER: \DeclareUnicodeCharacter{00A0}{~}
+
+#+LaTeX_HEADER: \newcommand{\mytitlepage}{%
+#+LaTeX_HEADER:   \includegraphics[height=\paperheight-3cm]{images/org-mode-titlepage}
+#+LaTeX_HEADER:   {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+#+LaTeX_HEADER:   \vfill
+#+LaTeX_HEADER:   \begin{beamercolorbox}[sep=8pt,center]{title}
+#+LaTeX_HEADER:       \usebeamerfont{title}\Huge\inserttitle\par%
+#+LaTeX_HEADER:   \end{beamercolorbox}%
+#+LaTeX_HEADER:   \begin{tikzpicture}[remember picture,overlay,font={\color{orgmode}\Huge\bfseries}]
+#+LaTeX_HEADER:       \node[xshift=0cm,yshift=0cm] at (current page.center) {
+#+LaTeX_HEADER:           \includegraphics[width=\paperwidth]{images/org-mode-titlepage}
+#+LaTeX_HEADER:       };
+#+LaTeX_HEADER:       \node[xshift=-2.7cm,yshift=3.5cm,align=left] at (current page.center) {
+#+LaTeX_HEADER:            Productivité avec \\ l'export \LaTeX
+#+LaTeX_HEADER:       };
+#+LaTeX_HEADER:   \end{tikzpicture}
+#+LaTeX_HEADER: }
