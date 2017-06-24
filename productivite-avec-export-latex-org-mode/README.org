@@ -11,7 +11,7 @@
 #+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
 #+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.0 :ETC
 
-#+SETUPFILE: "~/.dotfiles/org/theme-bigblow.setup"
+#+SETUPFILE: ~/.dotfiles/org/theme-readtheorg.setup
 
 #+PROPERTY: header-args :noweb yes
 
@@ -1000,9 +1000,9 @@ Total & 10372\\
 
 ** Format
 
-| =%.nf=   | /Float/ avec /n/ décimales pour =printf= |
-| \keys{t} | Durée (sous forme de fraction)           |
-| \keys{T} | Durée (sous forme =HH:MM:SS=)            |
+| =%.nf=     | /Float/ avec /n/ décimales pour =printf= |
+| \keys{t} | Durée (sous forme de fraction)     |
+| \keys{T} | Durée (sous forme =HH:MM:SS=)        |
 
 ** Assistance à l'édition de la ligne =#+TBLFM=
 
