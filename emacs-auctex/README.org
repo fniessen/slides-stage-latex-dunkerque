@@ -111,7 +111,7 @@ exemple :
 
 ** Emacs intègre tous ces outils
 
-*** Left                                                                 :BMCOL:
+*** Left column                                                          :BMCOL:
 :PROPERTIES:
 :BEAMER_col: 0.57
 :END:
@@ -122,7 +122,7 @@ exemple :
   Web, client IRC, Tetris, etc.)
 - Complètement extensible et personnalisable (en Lisp)
 
-*** Right                                                                :BMCOL:
+*** Right column                                                         :BMCOL:
 :PROPERTIES:
 :BEAMER_col: 0.4
 :END:
