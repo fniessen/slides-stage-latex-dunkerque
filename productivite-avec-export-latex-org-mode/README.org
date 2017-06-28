@@ -168,96 +168,6 @@ par un export vers de l'HTML, en supplément ?
 \end{center}
 #+end_export
 
-** Présentation
-
-*** Unicorn                                                              :BMCOL:
-:PROPERTIES:
-:BEAMER_col: .48
-:END:
-
-#+LaTeX: \centering
-
-Org mode
-
-#+ATTR_LaTeX: :width 3cm
-[[file:images/org-mode-unicorn.png]]
-
-*** Carsten                                                              :BMCOL:
-:PROPERTIES:
-:BEAMER_col: .48
-:END:
-
-#+LaTeX: \centering
-
-créé en 2003 par \\
-Carsten Dominik
-
-#+ATTR_LaTeX: :width 2.6cm
-[[file:images/Carsten.png]]
-
-*** End of columns                                             :B_ignoreheading:
-:PROPERTIES:
-:BEAMER_env: ignoreheading
-:END:
-
-#+LaTeX: \pause{}
-
-# #+begin_quote
-# Back to the future for plain text. (Carsten Dominik)
-# #+end_quote
-
-#+begin_export latex
-\begin{tikzpicture}[overlay,font={\rmfamily}]
-  \node[text width=10.5cm,fill=white,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0,xshift=0cm,yshift=-4.1cm] at (current page.center)
-  {Back to the future for plain text. (Carsten Dominik)};
-\end{tikzpicture}
-#+end_export
-
-#+LaTeX: \pause{}
-
-# #+begin_quote
-# Org-mode does outlining, note-taking, hyperlinks, spreadsheets, TODO lists,
-# project planning, GTD, HTML and LaTeX authoring, all with plain text files in
-# Emacs. (Carsten Dominik)
-# #+end_quote
-
-# XXX Pourquoi le bloc suivant n'est pas centré ?
-
-#+begin_export latex
-\begin{tikzpicture}[overlay,font={\rmfamily}]
-  \node[text width=10.5cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0,yshift=-5.2cm] at (current page.center)
-  {Org-mode does outlining, note-taking, hyperlinks, spreadsheets, TODO lists,
-project planning, GTD, HTML and LaTeX authoring, all with plain text files in
-Emacs. (Carsten Dominik)};
-\end{tikzpicture}
-#+end_export
-
-** Définition
-:PROPERTIES:
-:BEAMER_opt: plain
-:END:
-
-# #+call: fullheightgraphic(yourimage="images/paperwork") :results latex
-
-#+results:
-#+BEGIN_EXPORT latex
-\setbeamertemplate{navigation symbols}{}
-\begin{tikzpicture}[remember picture,overlay]
-    \node[xshift=0cm,yshift=0cm] at (current page.center) {
-        \includegraphics[height=\paperheight]{images/paperwork}
-    };
-\end{tikzpicture}
-#+END_EXPORT
-
-#+begin_export latex
-\renewcommand*\sfdefault{ugq}
-\sffamily\bfseries
-\begin{tikzpicture}[remember picture,overlay,huge/.style={font=\Huge, inner sep=.3cm}]
-  \node[huge,right, align=left, rotate=5, yshift=-2.8cm, opacity=0.85, text width=4.4cm, minimum height=8.5cm, fill=white]
-    {\color{red!80!black}Emacs +\\ Org mode\\ (n.m.) :\\ \color{black!65}Assurance\\ d'être\\ bien plus\\ productif}
-\end{tikzpicture}
-#+end_export
-
 * Problèmes avec LaTeX
 
 ** Liste "à puces" en LaTeX
@@ -515,6 +425,70 @@ Juin & 2942\\
   \node[xshift=2cm,yshift=-0.8cm] at (current page.center)
     {\Large\bfseries{}
     \color{myblack}En route avec \color{mywhite}Org mode};
+\end{tikzpicture}
+#+end_export
+
+** Présentation
+
+*** Unicorn                                                              :BMCOL:
+:PROPERTIES:
+:BEAMER_col: .48
+:END:
+
+#+LaTeX: \centering
+
+Org mode
+
+#+ATTR_LaTeX: :width 3cm
+[[file:images/org-mode-unicorn.png]]
+
+*** Carsten                                                              :BMCOL:
+:PROPERTIES:
+:BEAMER_col: .48
+:END:
+
+#+LaTeX: \centering
+
+créé en 2003 par \\
+Carsten Dominik
+
+#+ATTR_LaTeX: :width 2.6cm
+[[file:images/Carsten.png]]
+
+*** End of columns                                             :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+
+#+LaTeX: \pause{}
+
+# #+begin_quote
+# Back to the future for plain text. (Carsten Dominik)
+# #+end_quote
+
+#+begin_export latex
+\begin{tikzpicture}[overlay,font={\rmfamily}]
+  \node[text width=10.5cm,fill=white,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0,xshift=0cm,yshift=-4.1cm] at (current page.center)
+  {Back to the future for plain text. (Carsten Dominik)};
+\end{tikzpicture}
+#+end_export
+
+#+LaTeX: \pause{}
+
+# #+begin_quote
+# Org-mode does outlining, note-taking, hyperlinks, spreadsheets, TODO lists,
+# project planning, GTD, HTML and LaTeX authoring, all with plain text files in
+# Emacs. (Carsten Dominik)
+# #+end_quote
+
+# XXX Pourquoi le bloc suivant n'est pas centré ?
+
+#+begin_export latex
+\begin{tikzpicture}[overlay,font={\rmfamily}]
+  \node[text width=10.5cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0,yshift=-5.2cm] at (current page.center)
+  {Org-mode does outlining, note-taking, hyperlinks, spreadsheets, TODO lists,
+project planning, GTD, HTML and LaTeX authoring, all with plain text files in
+Emacs. (Carsten Dominik)};
 \end{tikzpicture}
 #+end_export
 
@@ -789,6 +763,32 @@ pour les filets verticaux)
 
 *Limitation* --- \\
 Fusion de cellules (actuellement) impossible dans des tables Org
+
+** Définition
+:PROPERTIES:
+:BEAMER_opt: plain
+:END:
+
+# #+call: fullheightgraphic(yourimage="images/paperwork") :results latex
+
+#+results:
+#+BEGIN_EXPORT latex
+\setbeamertemplate{navigation symbols}{}
+\begin{tikzpicture}[remember picture,overlay]
+    \node[xshift=0cm,yshift=0cm] at (current page.center) {
+        \includegraphics[height=\paperheight]{images/paperwork}
+    };
+\end{tikzpicture}
+#+END_EXPORT
+
+#+begin_export latex
+\renewcommand*\sfdefault{ugq}
+\sffamily\bfseries
+\begin{tikzpicture}[remember picture,overlay,huge/.style={font=\Huge, inner sep=.3cm}]
+  \node[huge,right, align=left, rotate=5, yshift=-2.8cm, opacity=0.85, text width=4.4cm, minimum height=8.5cm, fill=white]
+    {\color{red!80!black}Emacs +\\ Org mode\\ (n.m.) :\\ \color{black!65}Assurance\\ d'être\\ bien plus\\ productif}
+\end{tikzpicture}
+#+end_export
 
 ** Création de tableaux
 
@@ -1730,19 +1730,25 @@ Pour en apprendre plus sur Org mode
 
 #+begin_export latex
 \begin{tikzpicture}[remember picture,overlay,font={\large\fontsize{12}{22}\bfseries}]
-  \node[xshift=-3.3cm,yshift=3.0cm,align=left] at (current page.center)
+  \node[xshift=-3.3cm,yshift=3.3cm,align=left] at (current page.center)
     {\color{mywhite}Soyez \color{myyellow}PLUS EFFICACE \\
      \color{mywhite}et \color{myyellow}PLUS PRODUCTIF\color{mywhite} \\
      \color{mywhite}avec Org mode !};
-  \node[xshift=-3.8cm,align=left] at (current page.center)
+
+  \node[xshift=-3.8cm,yshift=1.0cm,align=left] at (current page.center)
     {\color{mywhite}Téléchargez \color{myyellow}Org 9 \\ \color{mywhite}dès aujourd'hui};
+
+  \node[xshift=-4.3cm,yshift=-0.4cm,align=left] at (current page.center)
+    {\tiny\color{white}Package \color{myyellow}org-plus-contrib};
+
   \node[xshift=-3.5cm,yshift=-1.2cm,align=left] at (current page.center)
     {\tiny\color{myyellow}git clone git://orgmode.org/org-mode.git};
   \node[xshift=-4.7cm,yshift=-1.5cm,align=left] at (current page.center)
     {\tiny\color{myyellow}make autoloads};
   \node[xshift=-2.8cm,yshift=-1.8cm,align=left] at (current page.center)
-    {\tiny\color{myyellow}(add-to-list 'load-path "<path-to-repo>/lisp/") ; <- adjust};
-  \node[xshift=5.5cm,yshift=-2.3cm,align=left] at (current page.center)
+    {\tiny\color{myyellow}(add-to-list 'load-path "<path-to-repo>/lisp/") ; <- Adjust.};
+
+  \node[xshift=5.5cm,yshift=-3.8cm,align=left] at (current page.center)
     {\color{myyellow}Merci};
 \end{tikzpicture}
 #+end_export
@@ -1762,10 +1768,10 @@ Auteur @ [[http://www.pirilampo.org/][Pirilampo.org]]
 :BEAMER_col: 0.48
 :END:
 
-[[https://github.com/fniessen][GitHub]] fniessen \\
-[[http://be.linkedin.com/pub/fabrice-niessen/0/a42/200][LinkedIn]] fabrice-niessen \\
-[[http://www.slideshare.net/fniessen][SlideShare]] fniessen \\
-[[https://twitter.com/f_niessen][Twitter]] f_niessen \\
+| [[https://github.com/fniessen][GitHub]]     | fniessen        |
+| [[http://be.linkedin.com/pub/fabrice-niessen/0/a42/200][LinkedIn]]   | fabrice-niessen |
+| [[http://www.slideshare.net/fniessen][SlideShare]] | fniessen        |
+| [[https://twitter.com/f_niessen][Twitter]]    | f_niessen       |
 
 *** Droite                                                               :BMCOL:
 :PROPERTIES:
