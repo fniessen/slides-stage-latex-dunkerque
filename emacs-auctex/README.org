@@ -61,6 +61,8 @@
 
 * Tasks                                                               :noexport:
 
+** TODO [#A] Parler de ace-jump and keychord
+
 ** TODO Ajouter code pour mapper ² sur backslash
 
 ** TODO Parler des multi-fichiers (maître - esclave)
@@ -974,7 +976,7 @@ Bitouzé et Jean-Côme Charpentier.
   isbn =      {978-2-7440-7451-6}}
 #+end_src
 
-*** Faire appel au fichier =.bib=                                      :B_frame:
+*** Faire appel au fichier =.bib=                                        :B_frame:
 :PROPERTIES:
 :BEAMER_env: frame
 :END:
