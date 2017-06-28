@@ -803,19 +803,19 @@ Fusion de cellules (actuellement) impossible dans des tables Org
   + Données séparées par une virgule (CSV)
   + Données séparées par un ou plusieurs espaces consécutifs
 
-# #+begin_export latex
-# \begin{tikzpicture}[remember picture,overlay,font={\rmfamily}]
-#   \node[text width=1.8cm,draw=myquoteborder,line width=1pt,inner sep=6pt,
-#         rotate=5,xshift=-3.2cm,yshift=-2cm] at (current page.center)
-#   {S = Shift};
-#   \node[text width=2.5cm,draw=myquoteborder,line width=1pt,inner sep=6pt,fill=white,
-#         rotate=0,xshift=-1.2cm,yshift=-1.7cm] at (current page.center)
-#   {C = Control};
-#   \node[text width=2.2cm,draw=myquoteborder,line width=1pt,inner sep=6pt,fill=white,
-#         rotate=-5,xshift=1.2cm,yshift=-2.5cm] at (current page.center)
-#   {M \keys{ Meta (touche "Alt")};
-# \end{tikzpicture}
-# #+end_export
+#+begin_export latex
+\begin{tikzpicture}[remember picture,overlay,font={\rmfamily}]
+  \node[text width=1.8cm,draw=myquoteborder,line width=1pt,inner sep=6pt,
+        rotate=5,xshift=-3.2cm,yshift=-2cm] at (current page.center)
+  {S = Shift};
+  \node[text width=2.5cm,draw=myquoteborder,line width=1pt,inner sep=6pt,fill=white,
+        rotate=0,xshift=-1.2cm,yshift=-1.7cm] at (current page.center)
+  {C = Control};
+  \node[text width=2.2cm,draw=myquoteborder,line width=1pt,inner sep=6pt,fill=white,
+        rotate=-5,xshift=1.2cm,yshift=-2.5cm] at (current page.center)
+  {M = Meta (touche "Alt")};
+\end{tikzpicture}
+#+end_export
 
 ** Édition de tableaux
 
