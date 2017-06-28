@@ -127,7 +127,7 @@ par un export vers de l'HTML, en supplément ?
 
 ** Agenda
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{center}
   \begin{tikzpicture}[scale=0.55, transform shape]
     \path[mindmap,concept color=black,text=white,
@@ -166,7 +166,7 @@ par un export vers de l'HTML, en supplément ?
       };
   \end{tikzpicture}
 \end{center}
-#+END_EXPORT
+#+end_export
 
 ** Présentation
 
@@ -206,12 +206,12 @@ Carsten Dominik
 # Back to the future for plain text. (Carsten Dominik)
 # #+end_quote
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[overlay,font={\rmfamily}]
   \node[text width=10.5cm,fill=white,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0,xshift=0cm,yshift=-4.1cm] at (current page.center)
   {Back to the future for plain text. (Carsten Dominik)};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
 #+LaTeX: \pause{}
 
@@ -223,16 +223,16 @@ Carsten Dominik
 
 # XXX Pourquoi le bloc suivant n'est pas centré ?
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[overlay,font={\rmfamily}]
   \node[text width=10.5cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0,yshift=-5.2cm] at (current page.center)
   {Org-mode does outlining, note-taking, hyperlinks, spreadsheets, TODO lists,
 project planning, GTD, HTML and LaTeX authoring, all with plain text files in
 Emacs. (Carsten Dominik)};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
-** Définition XXX                                                     :noexport:
+** Définition
 :PROPERTIES:
 :BEAMER_opt: plain
 :END:
@@ -249,12 +249,14 @@ Emacs. (Carsten Dominik)};
 \end{tikzpicture}
 #+END_EXPORT
 
-#+BEGIN_EXPORT latex
-% \renewcommand*\sfdefault{ugq}
+#+begin_export latex
+\renewcommand*\sfdefault{ugq}
 \sffamily\bfseries
 \begin{tikzpicture}[remember picture,overlay,huge/.style={font=\Huge, inner sep=.3cm}]
-  \node[huge,right, align=left, rotate=5, yshift=-2.8cm, opacity=0.85, text width=4.4cm, minimum height=8.5cm, fill=white] {\color{red!80!black}Emacs +\\ Org mode\\ (n.m.) :\\ \color{black!65}Assurance\\ d'être\\ bien plus \\productiikzpicture}
-#+END_EXPORT
+  \node[huge,right, align=left, rotate=5, yshift=-2.8cm, opacity=0.85, text width=4.4cm, minimum height=8.5cm, fill=white]
+    {\color{red!80!black}Emacs +\\ Org mode\\ (n.m.) :\\ \color{black!65}Assurance\\ d'être\\ bien plus\\ productif}
+\end{tikzpicture}
+#+end_export
 
 * Problèmes avec LaTeX
 
@@ -454,14 +456,14 @@ Juin & 2942\\
 
 #+LaTeX: \pause{}
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{center}
   \begin{tikzpicture}[font={\rmfamily}]
     \node[text width=5.7cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=-5]
     {Fichier LaTeX et fichier du tableur à garder synchronisés... \\ Manuellement... \\ À chaque édition...};
   \end{tikzpicture}
 \end{center}
-#+END_EXPORT
+#+end_export
 
 ** Mais on a toujours fait comme cela...
 :PROPERTIES:
@@ -480,12 +482,12 @@ Juin & 2942\\
 \end{tikzpicture}
 #+END_EXPORT
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[remember picture,overlay,font={\Large\bfseries\color{white}}]
   \node[xshift=3.2cm,yshift=0cm,align=center] at (current page.center)
     {Il est \\ temps de changer \\ d'outils !};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
 * Solutions avec Org
 
@@ -508,13 +510,13 @@ Juin & 2942\\
 \end{tikzpicture}
 #+END_EXPORT
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[remember picture,overlay]
   \node[xshift=2cm,yshift=-0.8cm] at (current page.center)
     {\Large\bfseries{}
     \color{myblack}En route avec \color{mywhite}Org mode};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
 ** Mise en forme
 
@@ -801,7 +803,7 @@ Fusion de cellules (actuellement) impossible dans des tables Org
   + Données séparées par une virgule (CSV)
   + Données séparées par un ou plusieurs espaces consécutifs
 
-# #+BEGIN_EXPORT latex
+# #+begin_export latex
 # \begin{tikzpicture}[remember picture,overlay,font={\rmfamily}]
 #   \node[text width=1.8cm,draw=myquoteborder,line width=1pt,inner sep=6pt,
 #         rotate=5,xshift=-3.2cm,yshift=-2cm] at (current page.center)
@@ -813,7 +815,7 @@ Fusion de cellules (actuellement) impossible dans des tables Org
 #         rotate=-5,xshift=1.2cm,yshift=-2.5cm] at (current page.center)
 #   {M \keys{ Meta (touche "Alt")};
 # \end{tikzpicture}
-# #+END_EXPORT
+# #+end_export
 
 ** Édition de tableaux
 
@@ -1084,17 +1086,17 @@ Syntaxe Org
 
 # #+LaTeX: \onslide<2>{\todo[inline,color=yellow]{Données source, code et résultat dans le même document Org}}
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[remember picture,overlay,font={\rmfamily}]
   \node<4->[text width=4cm,draw=myquoteborder,line width=1pt,inner sep=6pt,
             xshift=-3.7cm,yshift=-3.2cm,rotate=5] at (current page.center)
   {Données source, code et résultat dans le même document Org};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
 #+LaTeX: \pause{}
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[remember picture,overlay]
   \tikzset{
       myarrow/.style={->, >=latex', shorten >=1pt},
@@ -1106,7 +1108,7 @@ Syntaxe Org
     \draw<3->[thick,myarrow] (c.east) -- ++(.7,0) -- ++(0,-.7);
   \end{pgfonlayer}
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
 #+LaTeX: \pause{}
 
@@ -1142,26 +1144,26 @@ barplot(data$Montant,
 :BEAMER_col: 0.36
 :END:
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[font={\rmfamily}]
   \node[text width=4cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0]
   {Même table source};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[font={\rmfamily}]
   \node<2->[text width=4cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0]
   {Autre code};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[font={\rmfamily}]
   \node<3->[text width=4cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=0]
   {Nouveau résultat};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
 *** Sortie                                                               :BMCOL:
 :PROPERTIES:
@@ -1275,8 +1277,8 @@ ORDER BY ctry_id
 Blocs spéciaux
 
 #+begin_src org
-,#+BEGIN_EXPORT latex
-,#+END_EXPORT
+,#+begin_export latex
+,#+end_export
 #+end_src
 
 #+begin_src org
@@ -1431,14 +1433,14 @@ et /en un même lieu/ que le code
      Extraire les blocs de code source et générer le code "emmêlé", formaté
      pour la machine (pour compilation ou exécution ultérieure)
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{center}
   \begin{tikzpicture}[font={\rmfamily}]
     \node[text width=8.5cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=5]
     {Possibilité de changer l'ordre du code source, via l'argument Noweb};
   \end{tikzpicture}
 \end{center}
-#+END_EXPORT
+#+end_export
 
 #+LaTeX: \pause{}
 
@@ -1476,7 +1478,7 @@ Cela vous permet d'insérer, /dans votre document/, toutes les *données* (qui
 peuvent être raisonnablement incluses) et blocs de *code* que vous avez
 utilisés, suivant ainsi les principes de la *recherche reproductible*
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[remember picture,overlay,font={\rmfamily}]
   \draw<3->node[text width=2.8cm,draw=myquoteborder,line width=1pt,inner sep=6pt,
         rotate=5,xshift=-2.4cm,yshift=-2.2cm] at (current page.center)
@@ -1485,7 +1487,7 @@ utilisés, suivant ainsi les principes de la *recherche reproductible*
         fill=white,rotate=-5,xshift=0.8cm,yshift=-2.7cm] at (current page.center)
   {Compendium};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
 ** Exécution de blocs de code
 
@@ -1562,7 +1564,7 @@ Ut enim ad minim veniam.
 
 ** Exporter le document Org
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[remember picture]
   \tikzset{product/.style={rotate=10,fill=blue,opacity=.10,text opacity=1},
            link/.style={->,>=latex,thick}}
@@ -1581,14 +1583,14 @@ Ut enim ad minim veniam.
   \draw<4->node[align=left] (rest) at (9,-4) {- Texte \\ - \textbf{ODT} \\ - Man \\ - \textbf{Markdown} \\ - Texinfo \\ - etc.};
   \draw<4->[link] (exporters) -- (rest);
 \end{tikzpicture}%
-#+END_EXPORT
+#+end_export
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[overlay,font={\rmfamily}]
   \draw<5->node[text width=3.5cm,fill=white,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=-10,xshift=4.5cm,yshift=0.9cm] at (current page.center)
   {Répéter la dernière commande d'export avec C-u C-c C-e};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
 ** Exporter en Beamer
 
@@ -1691,12 +1693,12 @@ Pour en apprendre plus sur Org mode
 
 - Liste de discussion [[mailto:emacs-orgmode@gnu.org][emacs-orgmode@gnu.org]]
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[remember picture,overlay,font={\rmfamily}]
   \draw<6->node[text width=3.5cm,draw=myquoteborder,line width=1pt,inner sep=6pt,rotate=-5,xshift=4.2cm,yshift=0.3cm] at (current page.center)
   {Écrit en Org \\ Publié en HTML};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
 ** Conclusion
 
@@ -1726,7 +1728,7 @@ Pour en apprendre plus sur Org mode
 \end{tikzpicture}
 #+END_EXPORT
 
-#+BEGIN_EXPORT latex
+#+begin_export latex
 \begin{tikzpicture}[remember picture,overlay,font={\large\fontsize{12}{22}\bfseries}]
   \node[xshift=-3.3cm,yshift=3.0cm,align=left] at (current page.center)
     {\color{mywhite}Soyez \color{myyellow}PLUS EFFICACE \\
@@ -1743,7 +1745,7 @@ Pour en apprendre plus sur Org mode
   \node[xshift=5.5cm,yshift=-2.3cm,align=left] at (current page.center)
     {\color{myyellow}Merci};
 \end{tikzpicture}
-#+END_EXPORT
+#+end_export
 
 ** Coordonnées
 
