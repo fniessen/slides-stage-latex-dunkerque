@@ -7,8 +7,8 @@
 #+OPTIONS:   toc:nil
 
 #+FILETAGS: :personal:
-#+LaTeX_CLASS: article
-#+LaTeX_CLASS_OPTIONS: [final]
+#+LaTeX_CLASS: mcarticle
+#+LaTeX_CLASS_OPTIONS: [final,anonym]
 
 * Contexte
 
