@@ -1,0 +1,53 @@
+#+TITLE:     Fichier de démo
+#+AUTHOR:    Fabrice Niessen
+#+EMAIL:     (concat "fni" at-sign "pirilampo.be")
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  fr
+#+OPTIONS:   toc:nil
+
+#+FILETAGS: :personal:
+#+LaTeX_CLASS: article
+#+LaTeX_CLASS_OPTIONS: [final]
+
+* Contexte
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+
+[[file:images/toolbox-messy.png]]
+
+* Explications
+
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+
+#+CAPTION: Montants
+#+name: depenses
+| Mois    | Montant |
+|---------+---------|
+| resto   |      25 |
+| cinema  |      12 |
+| babysit |      21 |
+
+#+name: exemple-R-plot-function
+#+header: :var data=depenses
+#+header: :exports results
+#+begin_src R :results graphics :file images/Rplots.png
+rel.hts <- (data$Montant / max(data$Montant)) / 2
+grays <- gray(1 - rel.hts)
+
+barplot(data$Montant,
+        col = grays,
+        main = "Montants",
+        names.arg = data$Mois,
+        ylab = "Montant (EUR)")
+#+end_src
+
+#+results: exemple-R-plot-function
+[[file:images/Rplots.png]]
+
+* Conclusions
+
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
