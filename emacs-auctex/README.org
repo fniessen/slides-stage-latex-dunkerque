@@ -1,6 +1,6 @@
 #+TITLE:     Emacs + AUCTeX
 #+AUTHOR:    \href{mailto:fniessen@pirilampo.org}{Fabrice Niessen}
-#+DATE:      13 juin 2018
+#+DATE:      12 juin 2019
 #+LANGUAGE:  fr
 #+OPTIONS:   H:2 toc:t
 #+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
@@ -18,7 +18,7 @@
 #+BEAMER_HEADER: \institute[Pirilampo]{}
 #+BEAMER_HEADER: \titlegraphic{\includegraphics[height=1.5cm]{images/Pirilampo}}
 
-#+BIND: org-latex-title-command "\\title{Emacs + AUC\\TeX{}}\n\\date[juin 2018]{13 juin 2018}\n\\begin{frame}[plain]\n\\maketitle\n\\end{frame}"
+#+BIND: org-latex-title-command "\\title{Emacs + AUC\\TeX{}}\n\\date[juin 2019]{12 juin 2019}\n\\begin{frame}[plain]\n\\maketitle\n\\end{frame}"
 
 #+BIND: org-beamer-outline-frame-title "Plan"
 #+BEAMER_HEADER: \AtBeginSection{%
@@ -976,7 +976,7 @@ Bitouzé et Jean-Côme Charpentier.
   isbn =      {978-2-7440-7451-6}}
 #+end_src
 
-*** Faire appel au fichier =.bib=                                        :B_frame:
+*** Faire appel au fichier =.bib=                                      :B_frame:
 :PROPERTIES:
 :BEAMER_env: frame
 :END:
