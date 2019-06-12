@@ -1369,7 +1369,7 @@ Insérer un nouvel /heading/ avec \keys{M-RET}
 - Produire l'index en mettant à jour =org-latex-pdf-process=
 
   #+begin_src org :tangle no
-#+BIND: org-latex-pdf-process ("pdflatex %b" "bibtex %b" "pdflatex %b" "pdflatex %b")
+#+BIND: org-latex-pdf-process ("pdflatex %b" "makeindex %b" "pdflatex %b" "pdflatex %b")
   #+end_src
 
 ** TODO Compiler vers XeLaTeX                                         :noexport:
