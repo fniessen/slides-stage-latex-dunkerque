@@ -5,7 +5,7 @@
 #+OPTIONS:   H:2 toc:t
 #+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
 
-#+SETUPFILE: ~/.dotfiles/org/theme-readtheorg.setup
+#+SETUPFILE: ~/org/theme-readtheorg.setup
 
 # Go and read https://elzevir.fr/imj/latex/tips.html !!!
 
