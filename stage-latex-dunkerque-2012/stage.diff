@@ -1,0 +1,563 @@
+--- stage-latex-dunkerque-2013-slides (1).tex	2013-05-23 11:01:26.840325100 +0200
++++ stage-latex-dunkerque-2013-slides.tex	2013-05-23 11:03:15.294325100 +0200
+@@ -104,26 +104,26 @@
+ \usepackage{tikz}
+ \usepackage{pgfplots}
+ % must be loaded after url and hyperref
+-\RequirePackage[colorinlistoftodos]{todonotes}% (not in medium TeX Live installation)
++\usepackage[colorinlistoftodos]{todonotes}% (not in medium TeX Live installation)
+ \definecolor{mc@todobg}{HTML}{F5F5F5} % white smoke
+ \definecolor{mc@todoborder}{HTML}{DDDDDD} % ~ gray87
+-\renewcommand{\@todonotes@backgroundcolor}{mc@todobg}
+-\renewcommand{\@todonotes@bordercolor}{mc@todoborder}
++%\renewcommand{\@todonotes@backgroundcolor}{mc@todobg}
++%\renewcommand{\@todonotes@bordercolor}{mc@todoborder}
+ %the needed packages
+-\usepackage[absolute,showboxes,overlay]{textpos}
++%\usepackage[absolute,showboxes,overlay]{textpos}
+ %\TPshowboxestrue % commenter une fois fini
+-\TPshowboxesfalse % décommenter pour faire disparaitre les boites
+-\textblockorigin{10mm}{10mm} % origine des positions
++%\TPshowboxesfalse % décommenter pour faire disparaitre les boites
++%\textblockorigin{10mm}{10mm} % origine des positions
+ %adjust the TPHorizModule and TPHorizModule units to the displayed mm %grid
+-\TPGrid{210}{297}
++%\TPGrid{210}{297}
+ %puts a graphic at the absolute position described by the grid
+ %#1 x, #2 y, #3 width, #4 height, #5 graphic
+-\newcommand\putpic[5]{%
+-\begin{textblock}{#3}(#1,#2)
+-\includegraphics[width=#3\TPHorizModule,
+-height=#4\TPVertModule]{#5}
+-\end{textblock}
+-}
++% \newcommand\putpic[5]{%
++% \begin{textblock}{#3}(#1,#2)
++% \includegraphics[width=#3\TPHorizModule,
++% height=#4\TPVertModule]{#5}
++% \end{textblock}
++% }
+ \logo{\includegraphics[height=2cm]{org-mode-unicorn}}
+ \usepackage[frenchb]{babel}
+ \usepackage{multicol}
+@@ -175,14 +175,14 @@
+   \emph{Emacs major mode for note-taking, project planning, and authoring.}
+ \end{itemize}
+ 
+-\pause
++%\pause
+ 
+ %\putpic{20}{20}{100}{100}{Carsten.png}
+ 
+ %\begin{textblock*}{30mm}[0,0](180mm,40mm)
+-\begin{textblock*}{10mm}[0,0](0.92\textwidth,22mm)
+-    \includegraphics[width=17mm]{Carsten.png}
+-\end{textblock*}
++% \begin{textblock*}{10mm}[0,0](0.92\textwidth,22mm)
++%     \includegraphics[width=17mm]{Carsten.png}
++% \end{textblock*}
+ 
+ \#\#+ATTR\_$\backslash$LaTeX\{\}: width=1.7cm
+ \#\includegraphics[width=.9\linewidth]{Carsten.png}
+@@ -197,11 +197,11 @@
+ \item \href{http://orgmode.org/worg/org-tutorials/org-screencasts/org-mode-google-tech-talk.html}{Google Tech Talk} du 15 juillet 2008
+ \end{itemize}
+ 
+-\begin{quote}
+-"Org mode does outlining, note-taking, hyperlinks, spreadsheets, TODO lists,
+-project planning, GTD, HTML and \LaTeX{} authoring, all with plain text files in
+-Emacs." -- Carsten Dominik
+-\end{quote}
++% \begin{quote}
++% "Org mode does outlining, note-taking, hyperlinks, spreadsheets, TODO lists,
++% project planning, GTD, HTML and \LaTeX{} authoring, all with plain text files in
++% Emacs." -- Carsten Dominik
++% \end{quote}
+ \subsubsection{Org mode}
+ \label{sec-1-2-2}
+ 
+@@ -216,7 +216,7 @@
+ 
+ \item Difficultés à convaincre vos collègues de passer à\ldots{} Emacs\footnote{Evil = émulateur Vim pour Emacs}
+ \end{itemize}
+-\subsubsection{Org mode \\ Possibilités supplémentaires par rapport à \LaTeX{}}
++\subsubsection{Org mode Possibilités supplémentaires par rapport à \LaTeX{}}
+ \label{sec-1-2-3}
+ 
+ \begin{itemize}
+@@ -228,19 +228,19 @@
+ \item \ldots{}
+ \end{itemize}
+ 
+-\begin{quote}
+-At its core, Org mode is a simple outliner for \textbf{note-taking} and \textbf{[task] list
+-management}. You can learn the basics for using it in five minutes. This may
+-be all you need, and Org mode will not impose more complex features on you.
+--- \url{http://orgmode.org/}
+-\end{quote}
++% \begin{quote}
++% At its core, Org mode is a simple outliner for \textbf{note-taking} and \textbf{[task] list
++% management}. You can learn the basics for using it in five minutes. This may
++% be all you need, and Org mode will not impose more complex features on you.
++% -- \url{http://orgmode.org/}
++% \end{quote}
+ \section{Structuration}
+ \label{sec-2}
+ 
+ \subsection{Fichier}
+ \label{sec-2-1}
+ 
+-\subsubsection{Fichier \\ Généralités}
++\subsubsection{Fichier Généralités}
+ \label{sec-2-1-1}
+ 
+ \begin{itemize}
+@@ -248,7 +248,7 @@
+ \item Codage (\texttt{latin1}, \texttt{utf8}) auto-détecté
+ \item Codage \texttt{T1} (= défaut) pour l'accès aux \emph{glyphes} des fontes
+ \end{itemize}
+-\subsubsection{Fichier \\ Classes}
++\subsubsection{Fichier Classes}
+ \label{sec-2-1-2}
+ 
+ \begin{itemize}
+@@ -276,7 +276,7 @@
+ \subsection{Packages}
+ \label{sec-2-2}
+ 
+-\subsubsection{Packages par défaut \\ Packages insérés dans chaque en-tête \LaTeX{}}
++\subsubsection{Packages par défaut Packages insérés dans chaque en-tête \LaTeX{}}
+ \label{sec-2-2-1}
+ 
+ \begin{itemize}
+@@ -332,7 +332,7 @@
+ \begin{description}
+ \item[\texttt{M-RET}] Insérer un nouvel /heading/\footnote{\texttt{M} = Meta (touche \texttt{Alt})}
+ \end{description}
+-\subsubsection{Sectionnement \\ Édition de la structure}
++\subsubsection{Sectionnement Édition de la structure}
+ \label{sec-2-4-2}
+ 
+ \begin{itemize}
+@@ -349,12 +349,12 @@
+ \item[\texttt{M-S-left}] Promouvoir le sous-arbre
+ \item[\texttt{M-S-right}] "Démouvoir" le sous-arbre
+ 
+-\todo[inline,caption={},]{
+-  {\color{red}\textbf{\textsf{\textsc{TODO}}}} Impact de org-element-drag-forward?
+-    }
++% \todo[inline,caption={},]{
++%   {\color{red}\textbf{\textsf{\textsc{TODO}}}} Impact de org-element-drag-forward?
++%     }
+ \end{description}
+ \end{itemize}
+-\subsubsection{Sectionnement \\ Visibilité}
++\subsubsection{Sectionnement Visibilité}
+ \label{sec-2-4-3}
+ 
+ \begin{description}
+@@ -382,7 +382,7 @@
+ \item Afficher tout
+ \end{enumerate}
+ \end{description}
+-\subsubsection{Sectionnement \\ Visibilité}
++\subsubsection{Sectionnement Visibilité}
+ \label{sec-2-4-4}
+ 
+ \begin{description}
+@@ -392,7 +392,7 @@
+ \item[\texttt{C-u C-c C-r}] Révèle tous les frères et soeurs
+ \item[\texttt{M-x org-show-subtree}]
+ \end{description}
+-\subsubsection{Sectionnement \\ Navigation}
++\subsubsection{Sectionnement Navigation}
+ \label{sec-2-4-5}
+ 
+ \begin{description}
+@@ -482,7 +482,7 @@
+ \subsection{Listes structurées}
+ \label{sec-2-6}
+ 
+-\subsubsection{Listes structurées \\ Listes à puces}
++\subsubsection{Listes structuréesListes à puces}
+ \label{sec-2-6-1}
+ 
+ \lstset{language=org,numbers=none}
+@@ -508,7 +508,7 @@
+ \item[\texttt{C-u C-c -}] Faire un élément de chaque ligne de la région active
+ \item[\texttt{C-c -}] Faire un élément de la région active
+ \end{description}
+-\subsubsection{Listes structurées \\ Listes à puces}
++\subsubsection{Listes structuréesListes à puces}
+ \label{sec-2-6-2}
+ 
+ \lstset{language=org,numbers=none}
+@@ -530,7 +530,7 @@
+   \end{itemize}
+ \end{itemize}
+ \end{lstlisting}
+-\subsubsection{Listes structurées \\ Listes à puces avec boîtes à cocher}
++\subsubsection{Listes structuréesListes à puces avec boîtes à cocher}
+ \label{sec-2-6-3}
+ 
+ \begin{itemize}
+@@ -558,7 +558,7 @@
+ ,  - [X] Commander la nourriture
+ ,  - [ ] Choisir la musique
+ \end{lstlisting}
+-\subsubsection{Listes structurées \\ Listes numérotées}
++\subsubsection{Listes structuréesListes numérotées}
+ \label{sec-2-6-4}
+ 
+ \lstset{language=org,numbers=none}
+@@ -574,7 +574,7 @@
+ \setcounter{enumi}{4}
+ \item Saut vers le 5\ieme{} point
+ \end{enumerate}
+-\subsubsection{Listes structurées \\ Listes de description}
++\subsubsection{Listes structuréesListes de description}
+ \label{sec-2-6-5}
+ 
+ \lstset{language=org,numbers=none}
+@@ -646,7 +646,7 @@
+ \item Contact (\texttt{bbdb})
+ \end{itemize}
+ \end{itemize}
+-\subsubsection{Références hypertexte \\ Référence vers une ancre \texttt{ID}}
++\subsubsection{Références hypertexteRéférence vers une ancre \texttt{ID}}
+ \label{sec-2-8-2}
+ 
+ \begin{itemize}
+@@ -668,7 +668,7 @@
+ ,   :ID:       d34b788e-112d-4d8f-8749-d52b627d7bc2
+ ,   :END:
+ \end{lstlisting}
+-\subsubsection{Références hypertexte \\ Référence vers une ancre \texttt{CUSTOM\_ID}}
++\subsubsection{Références hypertexteRéférence vers une ancre \texttt{CUSTOM\_ID}}
+ \label{sec-2-8-3}
+ 
+ \begin{itemize}
+@@ -725,7 +725,7 @@
+ \subsection{Équations}
+ \label{sec-3-1}
+ 
+-\subsubsection{Équations \\ Formule en ligne}
++\subsubsection{ÉquationsFormule en ligne}
+ \label{sec-3-1-1}
+ 
+ \lstset{language=org,numbers=none}
+@@ -734,7 +734,7 @@
+ \end{lstlisting}
+ 
+ Il est clair que $1 \neq 2$, n'est-ce pas ?
+-\subsubsection{Équations \\ Formule hors ligne "simple"}
++\subsubsection{ÉquationsFormule hors ligne "simple"}
+ \label{sec-3-1-2}
+ 
+ \lstset{language=org,numbers=none}
+@@ -753,7 +753,7 @@
+ \]
+ 
+ Preuve laissée au lecteur\ldots{}
+-\subsubsection{Équations \\ Formule hors ligne numérotée}
++\subsubsection{ÉquationsFormule hors ligne numérotée}
+ \label{sec-3-1-3}
+ 
+ Densité de probabilité de la distribution gaussienne
+@@ -768,7 +768,7 @@
+ \begin{equation}
+   \frac{1}{\sqrt{2\pi\sigma^2}}e^{ -\frac{(x-\mu)^2}{2\sigma^2} }
+ \end{equation}
+-\subsubsection{Équations \\ Raccourcis}
++\subsubsection{ÉquationsRaccourcis}
+ \label{sec-3-1-4}
+ 
+ \begin{description}
+@@ -780,7 +780,7 @@
+ \subsection{Symboles spéciaux}
+ \label{sec-3-2}
+ 
+-\subsubsection{Symboles spéciaux \\ Fichier \verb~lisp/org-entities.el~}
++\subsubsection{Symboles spéciauxFichier ~lisp/org-entities.el~}
+ \label{sec-3-2-1}
+ 
+ \begin{description}
+@@ -833,7 +833,7 @@
+ \hline
+ \end{tabular}
+ \end{table}
+-\subsubsection{Tableaux \\ Création}
++\subsubsection{TableauxCréation}
+ \label{sec-3-3-2}
+ 
+ \begin{itemize}
+@@ -852,7 +852,7 @@
+ \item Données séparées par un ou plusieurs espaces consécutifs
+ \end{itemize}
+ \end{itemize}
+-\subsubsection{Tableaux \\ Édition}
++\subsubsection{TableauxÉdition}
+ \label{sec-3-3-3}
+ 
+ \begin{itemize}
+@@ -873,7 +873,7 @@
+ \end{description}
+ \item Numériques alignés à droite par défaut
+ \end{itemize}
+-\subsubsection{Tableaux \\ Édition}
++\subsubsection{TableauxÉdition}
+ \label{sec-3-3-4}
+ 
+ \begin{description}
+@@ -892,7 +892,7 @@
+ \item[\texttt{N}] ordre numérique inverse
+ \end{description}
+ \end{description}
+-\subsubsection{Tableur \\ Références}
++\subsubsection{TableurRéférences}
+ \label{sec-3-3-5}
+ 
+ \begin{itemize}
+@@ -920,7 +920,7 @@
+ \item[\texttt{@>} ou \texttt{\$>}] Dernière ligne ou colonne
+ \end{description}
+ \end{itemize}
+-\subsubsection{Tableur \\ Références}
++\subsubsection{TableurRéférences}
+ \label{sec-3-3-6}
+ 
+ \begin{itemize}
+@@ -937,7 +937,7 @@
+ 
+ \item Référence externe \texttt{remote(nom-de-table,référence)}
+ \end{itemize}
+-\subsubsection{Tableur \\ Formules}
++\subsubsection{TableurFormules}
+ \label{sec-3-3-7}
+ 
+ \begin{itemize}
+@@ -955,7 +955,7 @@
+ \item[\texttt{C-u C-u C-c *}] \ldots{} jusqu'à ce que la \textbf{table} soit \textbf{stable}
+ \end{description}
+ \end{itemize}
+-\subsubsection{Tableur \\ Formules}
++\subsubsection{TableurFormules}
+ \label{sec-3-3-8}
+ 
+ \lstset{language=org,numbers=none}
+@@ -978,7 +978,7 @@
+ Total & 4080\\
+ \end{tabular}
+ \end{center}
+-\subsubsection{Tableur \\ Fonctions (voir manuel de GNU Emacs Calc)}
++\subsubsection{TableurFonctions (voir manuel de GNU Emacs Calc)}
+ \label{sec-3-3-9}
+ 
+ \begin{itemize}
+@@ -992,7 +992,7 @@
+ \item[\texttt{tan(x)}] Tangente
+ \end{description}
+ \end{itemize}
+-\subsubsection{Tableur \\ Fonctions (voir manuel de GNU Emacs Calc)}
++\subsubsection{TableurFonctions (voir manuel de GNU Emacs Calc)}
+ \label{sec-3-3-10}
+ 
+ \begin{itemize}
+@@ -1008,7 +1008,7 @@
+ \item[\texttt{vvar(range)}] Variance
+ \end{description}
+ \end{itemize}
+-\subsubsection{Tableur \\ Fonctions (voir manuel de GNU Emacs Calc)}
++\subsubsection{TableurFonctions (voir manuel de GNU Emacs Calc)}
+ \label{sec-3-3-11}
+ 
+ \begin{itemize}
+@@ -1022,7 +1022,7 @@
+ \item[\texttt{string("")}] \emph{String} vide
+ \end{description}
+ \end{itemize}
+-\subsubsection{Tableur \\ Format}
++\subsubsection{TableurFormat}
+ \label{sec-3-3-12}
+ 
+ \begin{description}
+@@ -1030,7 +1030,7 @@
+ \item[\texttt{t}] Durée (sous forme de fraction)
+ \item[\texttt{T}] Durée (sous forme \texttt{HH:MM:SS})
+ \end{description}
+-\subsubsection{Tableur \\ Assistance à l'édition de la ligne \texttt{\#+TBLFM}}
++\subsubsection{TableurAssistance à l'édition de la ligne \texttt{\#+TBLFM}}
+ \label{sec-3-3-13}
+ 
+ \begin{description}
+@@ -1107,7 +1107,7 @@
+ \subsubsection{Graphiques R}
+ \label{sec-3-5-1}
+ 
+-\lstset{language=R,numbers=none}
++%\lstset{language=r,numbers=none}
+ \begin{lstlisting}
+ plot(1:10, (1:10)^2)
+ \end{lstlisting}
+@@ -1124,7 +1124,7 @@
+ \end{tabular}
+ \end{center}
+ 
+-\lstset{language=R,label=R-plot,numbers=none}
++%\lstset{language=R,label=R-plot,numbers=none}
+ \begin{lstlisting}
+ plot(data)
+ \end{lstlisting}
+@@ -1148,7 +1148,7 @@
+ }
+ \end{lstlisting}
+ 
+-\includegraphics[width=.9\linewidth]{foo.pdf}
++%\includegraphics[width=.9\linewidth]{foo.pdf}
+ \subsubsection{Graphiques TikZ}
+ \label{sec-3-5-4}
+ 
+@@ -1211,13 +1211,13 @@
+ #+end_quote
+ \end{lstlisting}
+ 
+-\begin{quote}
+-We have seen that computer programming is an art,
+-because it applies accumulated knowledge to the world,
+-because it requires skill and ingenuity, and especially
+-because it produces objects of beauty.
+--- Donald E. Knuth (Communications of the ACM, December 1974)
+-\end{quote}
++% \begin{quote}
++% We have seen that computer programming is an art,
++% because it applies accumulated knowledge to the world,
++% because it requires skill and ingenuity, and especially
++% because it produces objects of beauty.
++% -- Donald E. Knuth (Communications of the ACM, December 1974)
++% \end{quote}
+ \subsection{Listings informatiques}
+ \label{sec-3-7}
+ 
+@@ -1248,7 +1248,7 @@
+ \subsection{Blocs}
+ \label{sec-3-8}
+ 
+-\subsubsection{Insertion d'environnements \\ Easy templates \texttt{org-structure-template-alist}}
++\subsubsection{Insertion d'environnements  Easy templates \texttt{org-structure-template-alist}}
+ \label{sec-3-8-1}
+ 
+ \begin{itemize}
+@@ -1261,7 +1261,7 @@
+ \item[\texttt{< c TAB}] Insérer un bloc \emph{center}
+ \end{description}
+ \end{itemize}
+-\subsubsection{Insertion d'environnements \\ Easy templates \texttt{org-structure-template-alist}}
++\subsubsection{Insertion d'environnementsEasy templates \texttt{org-structure-template-alist}}
+ \label{sec-3-8-2}
+ 
+ \begin{itemize}
+@@ -1348,7 +1348,7 @@
+ \subsection{Options}
+ \label{sec-4-1}
+ 
+-\subsubsection{Options d'export \\ Quelques options courantes}
++\subsubsection{Options d'exportQuelques options courantes}
+ \label{sec-4-1-1}
+ 
+ \begin{description}
+@@ -1357,7 +1357,7 @@
+ \item[\texttt{toc:t}] \textbf{Table des matières} (éventuellement limitée à un @nombre de niveaux@)
+ \item[\texttt{\textasciicircum{}:nil}] Interprétation des \texttt{\_} et \texttt{\textasciicircum{}} comme \emph{indice} et \emph{exposant}
+ \end{description}
+-\subsubsection{Options d'export \\ Quelques options avancées}
++\subsubsection{Options d'exportQuelques options avancées}
+ \label{sec-4-1-2}
+ 
+ \begin{description}
+@@ -1366,7 +1366,7 @@
+ \item[\texttt{tags:not-in-toc}] Inclusion des \emph{tags} (éventuellement limitée au @titre des
+ sections@)
+ \end{description}
+-\subsubsection{Options d'export \\ \emph{Template} inséré via \texttt{C-c C-e t}}
++\subsubsection{Options d'export inséré via \texttt{C-c C-e t}}
+ \label{sec-4-1-3}
+ 
+ \lstset{language=org,numbers=none}
+@@ -1583,7 +1583,7 @@
+ \subsection{Org-Babel}
+ \label{sec-5-7}
+ 
+-\subsubsection{Org-Babel \\ Usages}
++\subsubsection{Org-BabelUsages}
+ \label{sec-5-7-1}
+ 
+ \begin{itemize}
+@@ -1602,7 +1602,7 @@
+ Créer des rapports dynamiques qui peuvent être mis à jour automatiquement si
+ les données ou l'analyse change
+ \end{itemize}
+-\subsubsection{Org-Babel \\ Langages supportés}
++\subsubsection{Org-BabelLangages supportés}
+ \label{sec-5-7-2}
+ 
+ \begin{itemize}
+@@ -1640,7 +1640,7 @@
+ \item \texttt{sql}
+ \item \texttt{sqlite}
+ \end{itemize}
+-\subsubsection{Org-Babel \\ Exécution de code --- Usages}
++\subsubsection{Org-BabelExécution de code --- Usages}
+ \label{sec-5-7-3}
+ 
+ \begin{itemize}
+@@ -1657,7 +1657,7 @@
+ \item Génération de code \LaTeX{} (en Elisp ou n'importe quel autre langage) avec le
+ paramètre d'output \texttt{:results latex}
+ \end{itemize}
+-\subsubsection{Org-Babel \\ Exécution de code --- Code en ligne}
++\subsubsection{Org-BabelExécution de code --- Code en ligne}
+ \label{sec-5-7-4}
+ 
+ \begin{itemize}
+@@ -1686,7 +1686,7 @@
+ En R, 2 + 3 = 5
+ \end{itemize}
+ .
+-\subsubsection{Org-Babel \\ Exécution de code --- Code hors ligne}
++\subsubsection{Org-BabelExécution de code --- Code hors ligne}
+ \label{sec-5-7-5}
+ 
+ \begin{itemize}
+@@ -1733,7 +1733,7 @@
+ 
+ \item \ldots{}
+ \end{itemize}
+-\subsubsection{Exécution de code \\ SQL}
++\subsubsection{Exécution de codeSQL}
+ \label{sec-5-7-7}
+ 
+ \lstset{language=org,numbers=none}
+@@ -1758,12 +1758,12 @@
+ \subsection{Time clocking}
+ \label{sec-5-8}
+ 
+-\subsubsection{Time clocking \\ Track time}
++\subsubsection{Time clockingTrack time}
+ \label{sec-5-8-1}
+ 
+ \#+BEGIN\_SRC org :exports code
+ 
+-\subsection{{\color{red}\textbf{\textsc{\textsf{TODO}}}} Laver les fenêtres à l'étage}
++\subsection{Laver les fenêtres à l'étage}
+ \label{sec-5-9}
+ \#+END\_SRC
+ 
+@@ -1883,7 +1883,7 @@
+ \subsubsection{Questions~?}
+ \label{sec-7-1-3}
+ 
+-\includegraphics[width=.9\linewidth]{questions.png}
++%\includegraphics[width=.9\linewidth]{questions.png}
+ \section{Remerciements}
+ \label{sec-8}
+ 

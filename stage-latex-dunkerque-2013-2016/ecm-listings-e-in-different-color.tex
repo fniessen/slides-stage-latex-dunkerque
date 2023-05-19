@@ -1,0 +1,55 @@
+% Created 2013-06-10 Mon 21:49
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[frenchb]{babel}
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{my@lstidentifier}{HTML}{0000CC} % black
+\definecolor{my@lstcomment}{HTML}{008200} % green
+\definecolor{my@lststring}{HTML}{FF5500} % orange
+\definecolor{my@lstkeyword}{HTML}{0000FF} % blue
+\definecolor{my@lstbackground}{HTML}{FFFFCC} % light yellow
+\definecolor{my@lstframe}{HTML}{FFEE88} % dark yellow
+\lstset{%
+  basicstyle=\ttfamily\scriptsize, % font that is used for the code
+  identifierstyle=\color{my@lstidentifier},
+  commentstyle=\color{my@lstcomment}\itshape,
+  stringstyle=\color{my@lststring},
+  keywordstyle=\color{my@lstkeyword},
+  backgroundcolor=\color{my@lstbackground}, % set the background color
+  rulecolor=\color{my@lstframe}, % frame color
+  %
+  extendedchars=true,
+  inputencoding=utf8,
+  % conversion of UTF-8 chars to latin1
+  literate=
+  {à}{{\`a}}1
+  {â}{{\^a}}1
+  {ç}{{\c{c}}}1
+  {é}{{\'e}}1
+  {è}{{\`e}}1
+  {ê}{{\^e}}1
+  {ë}{{\"e}}1
+  {î}{{\^i}}1
+  {ï}{{\"i}}1
+  {ô}{{\^o}}1
+  {û}{{\^u}}1
+}
+
+\title{ECM}
+\begin{document}
+
+\color{red}
+
+L'élève a écrit :
+
+\lstset{language=java,numbers=none}
+\begin{lstlisting}
+- Premier élément
+  - Niveau plus profond
+- Autre élément
+- Dernier élément
+\end{lstlisting}
+
+\end{document}

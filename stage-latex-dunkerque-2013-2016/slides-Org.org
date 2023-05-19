@@ -1,0 +1,31 @@
+
+* Résumé
+
+Écrire un document de qualité (via LaTeX) aussi facilement qu'un email.
+
+La syntaxe LaTeX, lourde, technique voire cryptique, vous rebute, vous ou un(e)
+de vos ami(e)s ou collègues ?  Venez voir qu'il y a moyen de produire un
+document LaTeX sans taper un seul backslash...
+
+* Action
+
+I suggest you install latest Org release by
+
+1. downloading http://orgmode.org/org-latest.zip
+2. unzipping the file
+3. cd org-mode/
+3. make autoloads
+
+Then add this to your .emacs.el file :
+
+;; Adapt the directory path if needed
+(add-to-list 'load-path "~/org-mode/")
+
+This way you will enjoy a recent version without compromising
+the stability of your distribution, and you'll be able to check
+if the issues you reported are still there.
+
+* References
+
+\bibliographystyle{plain}
+\bibliography{/path/to/my/bibfile}{}
