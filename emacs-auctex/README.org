@@ -976,7 +976,7 @@ Bitouzé et Jean-Côme Charpentier.
   isbn =      {978-2-7440-7451-6}}
 #+end_src
 
-*** Faire appel au fichier =.bib=                                      :B_frame:
+*** Faire appel au fichier =.bib=                                        :B_frame:
 :PROPERTIES:
 :BEAMER_env: frame
 :END:
@@ -1235,7 +1235,7 @@ environnement ~description~.
   (global-set-key
     (kbd "C-c d m") 'dictionary-match-words)
 
-  (with-eval-after-load "dictionary"
+  (with-eval-after-load 'dictionary
 
     (global-dictionary-tooltip-mode 1)
 

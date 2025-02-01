@@ -1633,7 +1633,7 @@ exportée avec \keys{C-c C-e l P}
 ** Exports à jour
 
 #+begin_src emacs-lisp
-  (with-eval-after-load "org"
+  (with-eval-after-load 'org
 
     (defun org-save-buffer-and-do-related ()
       "Save buffer, execute/tangle code blocks, and export to HTML/PDF."
